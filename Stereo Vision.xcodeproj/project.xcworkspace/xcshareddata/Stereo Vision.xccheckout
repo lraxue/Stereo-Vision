@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>E5F5244C-AE30-45A7-BC72-16C0901DF0CD</string>
+	<key>IDESourceControlProjectName</key>
+	<string>Stereo Vision</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>C477A00FC2146C3A02F871A79D01F68D899206D8</key>
+		<string>https://github.com/Neo-DW/Stereo-Vision.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>Stereo Vision.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>C477A00FC2146C3A02F871A79D01F68D899206D8</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/Neo-DW/Stereo-Vision.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>C477A00FC2146C3A02F871A79D01F68D899206D8</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>C477A00FC2146C3A02F871A79D01F68D899206D8</string>
+			<key>IDESourceControlWCCName</key>
+			<string>Stereo-Vision</string>
+		</dict>
+	</array>
+</dict>
+</plist>

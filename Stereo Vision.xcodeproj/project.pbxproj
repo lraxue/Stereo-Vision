@@ -32,6 +32,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		13178730B6E18F8E21A60507 /* im0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = im0.png; sourceTree = "<group>"; };
+		13178E209C6AFA68A3B84F16 /* calib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = calib; sourceTree = "<group>"; };
+		13178EEAFBBAF41B54A9DA39 /* im1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = im1.png; sourceTree = "<group>"; };
 		B57498421A2ECF5D00563DD3 /* libopencv_calib3d.2.4.9.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libopencv_calib3d.2.4.9.dylib; path = /usr/local/Cellar/opencv/2.4.9/lib/libopencv_calib3d.2.4.9.dylib; sourceTree = "<absolute>"; };
 		B57498431A2ECF5D00563DD3 /* libopencv_core.2.4.9.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libopencv_core.2.4.9.dylib; path = /usr/local/Cellar/opencv/2.4.9/lib/libopencv_core.2.4.9.dylib; sourceTree = "<absolute>"; };
 		B57498441A2ECF5D00563DD3 /* libopencv_features2d.2.4.9.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libopencv_features2d.2.4.9.dylib; path = /usr/local/Cellar/opencv/2.4.9/lib/libopencv_features2d.2.4.9.dylib; sourceTree = "<absolute>"; };
@@ -66,6 +69,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		13178195C82B1357577DC7DB /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+				13178E209C6AFA68A3B84F16 /* calib */,
+				13178EEAFBBAF41B54A9DA39 /* im1.png */,
+				13178730B6E18F8E21A60507 /* im0.png */,
+			);
+			path = Assets;
+			sourceTree = "<group>";
+		};
 		B574984E1A2ECF7300563DD3 /* Dependency */ = {
 			isa = PBXGroup;
 			children = (
@@ -88,6 +101,7 @@
 				B59097981A285CAB00F4DABB /* Stereo Vision */,
 				B574984E1A2ECF7300563DD3 /* Dependency */,
 				B59097971A285CAB00F4DABB /* Products */,
+				13178195C82B1357577DC7DB /* Assets */,
 			);
 			sourceTree = "<group>";
 		};

@@ -9,9 +9,6 @@
 #ifndef __CALIB_H__
 #define __CALIB_H__
 
-#define LEFT 0
-#define RIGHT 1
-
 static float intrisicMat0[3][3] = {
         {6872.874, 0, 1329.49},
         {0, 6872.874, 954.485},

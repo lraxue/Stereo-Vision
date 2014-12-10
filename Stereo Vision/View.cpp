@@ -15,6 +15,7 @@
 using namespace std;
 using namespace cv;
 
+#define DEBUG_
 /* Public interfaces */
 void View::extractFeaturePoints() {
     SiftFeatureDetector detector;
@@ -41,40 +42,37 @@ void View::matchFeaturePoints(View &r) {
     for (int i = 0; i < mDescriptor.rows; ++i) {
         if (matchedPoints[i].distance < 4 * minDist) {
             filteredMatchedPoints.push_back(matchedPoints[i]);
-            pushKeyPointWithIndex(matchedPoints[i].queryIdx);
-            r.pushKeyPointWithIndex(matchedPoints[i].trainIdx);
+            pushMatchedPointWithIndex(matchedPoints[i].queryIdx);
+            r.pushMatchedPointWithIndex(matchedPoints[i].trainIdx);
         }
     }
 
     Mat imgMatch;
     drawMatches(mImg, mFeaturePoints,
-            r.getImg(), r.getFeaturePoints(),
+            r.img(), r.featurePoints(),
             filteredMatchedPoints,
             imgMatch);
-    namedWindow("Test");
-    imshow("Test", imgMatch);
-    waitKey(-1);
 }
 
 void View::restoreMotion(View &r) {
     /* Eight Points Method */
-    const int pointNum = 8;
+    const int pointNum = 12;
     const int row = pointNum, col = 9;
 
     /* Get random points */
-    if (not getRandVec(pointNum, (int) mKeyPoints.size()))
+    if (not genRandIndex(pointNum, (int) matchedPoints().size()))
         return;
 
     vector<Point3f> lVec, rVec;
-    for (int i = 0; i < pointNum; i++) {
-        lVec.push_back(mKeyPoints[mRandVec[i]]);
-        rVec.push_back(r.getKeyPoints()[mRandVec[i]]);
+    for (int i = 0; i < pointNum; ++i) {
+        lVec.push_back(matchedPoints()[mRandVec[i]]);
+        rVec.push_back(r.matchedPoints()[mRandVec[i]]);
     }
 
     /* Get Point-pair matrices */
     // TODO: RANSAC
     Mat A = Mat(row, col, CV_32FC1);
-    for (int i = 0; i < row; i++) {
+    for (int i = 0; i < row; ++i) {
         float x1 = lVec[i].x, y1 = lVec[i].y,
                 x2 = rVec[i].x, y2 = rVec[i].y;
 
@@ -100,21 +98,62 @@ void View::restoreMotion(View &r) {
     * Not necessary to explicitly write
     * Mat EssentialMat = svd.u * (Mat_<float>(3, 3) << 1, 0, 0, 0, 1, 0, 0, 0, 0) * svd.vt;
     */
-    SVD svd(mIntrinsicMat.t() * FoundationMat * r.getIntrinsicMat());
+    SVD svd(intrinsicMat().t() * FoundationMat * r.intrinsicMat());
 
     /* Extract [R, t] */
     Mat W = (Mat_<float>(3, 3) << 0, -1, 0, 1, 0, 0, 0, 0, 1),
             R = svd.u * W * svd.vt,
             t = svd.u.col(2);
 
-    cout << R << endl;
-    cout << t << endl;
+    extrinsicMat(Mat::eye(3, 3, CV_32F), (Mat_<float>(3, 1) << 0, 0, 0));
+    projectMat(mIntrinsicMat * mExtrinsicMat);
 
+    r.extrinsicMat(R, t);
+    r.projectMat(r.intrinsicMat() * r.extrinsicMat());
+    cout << r.extrinsicMat() << endl;
+    cout << r.projectMat() << endl;
+}
+
+void View::rectify(View &r) {
+    Mat c1 = - mProjectMat.colRange(0, 3).inv() * (mProjectMat.col(3)),
+    c2 = - r.projectMat().colRange(0, 3).inv() * (r.projectMat().col(3));
+    Mat v1 = c1 - c2;
+    Mat v2 = mExtrinsicMat.colRange(0, 3).row(2).t().cross(v1);
+    Mat v3 = v1.cross(v2);
+    Mat R = Mat(3, 3, CV_32F);
+    R.row(0) = v1.t() / norm(v1);
+    R.row(1) = v2.t() / norm(v2);
+    R.row(2) = v3.t() / norm(v3);
+    Mat A = (mIntrinsicMat + r.mIntrinsicMat) / 2;
+    A.at<float>(0, 1) = 0;
+
+    intrinsicMat(A);
+    extrinsicMat(R, -R * c1);
+    Mat newProjectMatL = mIntrinsicMat * mExtrinsicMat;
+    rectifyMat(newProjectMatL.colRange(0, 3) * (mProjectMat.colRange(0, 3).inv()));
+    projectMat(newProjectMatL);
+
+    r.intrinsicMat(A);
+    r.extrinsicMat(R, -R * c2);
+    Mat newProjectMatR = r.intrinsicMat() * r.extrinsicMat();
+    r.rectifyMat(newProjectMatR.colRange(0, 3) * (r.projectMat().colRange(0, 3).inv()));
+    r.projectMat(newProjectMatR);
+
+#ifdef DEBUG_
+    Mat outputImg;
+    cout << rectifyMat() << endl;
+    Mat t = (Mat_<float>(3, 3) << 0.03, 0.03, 0, 0.85, -0.54, 0, 0, 0, 1);
+    warpPerspective(getImg(), outputImg, rectifyMat(), Size(getImg().rows, getImg().cols));
+    namedWindow("Test");
+    imshow("Test", outputImg);
+    waitKey(-1);
+#endif
 }
 
 /* Private Methods */
+
 /* For RANSAC */
-bool View::getRandVec(int length, int base) {
+bool View::genRandIndex(int length, int base) {
     mRandVec.clear();
     if (base < length)
         return false;
@@ -123,7 +162,7 @@ bool View::getRandVec(int length, int base) {
         int randIndex = rand() % base;
         if (mRandVec.end()
                 == find(mRandVec.begin(), mRandVec.end(), randIndex)) {
-            length--;
+            --length;
             mRandVec.push_back(randIndex);
         }
     }

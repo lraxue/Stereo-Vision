@@ -15,26 +15,30 @@ using namespace std;
 using namespace cv;
 
 int main() {
-    const string dirPath = "/Users/Neo/Desktop/stereo-vision/",
+    const string dirPath = "/Users/Neo/code/Visual/Stereo-Vision/Assets/",
             imgLeftPath = dirPath + "im0.png",
             imgRightPath = dirPath + "im1.png";
 
-    Mat imgLeft = imread(imgLeftPath),
-            imgRight = imread(imgRightPath);
+    Mat imgLeft = imread(imgLeftPath, CV_32FC3),
+            imgRight = imread(imgRightPath, CV_32FC3);
 
-    cv::resize(imgLeft, imgLeft, Size(imgLeft.size[1] / 4, imgLeft.size[0] / 4));
-    cv::resize(imgRight, imgRight, Size(imgRight.size[1] / 4, imgRight.size[0] / 4));
+    resize(imgLeft, imgLeft, Size(imgLeft.size[1], imgLeft.size[0]));
+    resize(imgRight, imgRight, Size(imgRight.size[1], imgRight.size[0]));
 
     View l = View(imgLeft), r = View(imgRight);
 
-    l.setIntrinsicMat(Mat(3, 3, CV_32F, intrisicMat0));
-    r.setIntrinsicMat(Mat(3, 3, CV_32F, intrisicMat1));
+    l.intrinsicMat(Mat(3, 3, CV_32F, intrisicMat0));
+    r.intrinsicMat(Mat(3, 3, CV_32F, intrisicMat1));
 
     l.extractFeaturePoints();
     r.extractFeaturePoints();
 
     l.matchFeaturePoints(r);
+
+    /*
     l.restoreMotion(r);
+    l.rectify(r);
+    */
 
     return 0;
 }
