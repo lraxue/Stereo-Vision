@@ -9,92 +9,52 @@
 #ifndef __VIEW_H__
 #define __VIEW_H__
 
-#include <vector>
-#include <iostream>
-#include <opencv2/opencv.hpp>
+#include "sv.h"
 
-using namespace std;
+namespace sv {
+    class View {
 
-class View {
-/* Members */
-private:
-    /* Raw input image */
-    cv::Mat mImg;
-    cv::Mat rectifiedImg;
+    /* Members */
+    private:
+        /* Raw input image */
+        cv::Mat mImg;
 
-    /* Depth image */
-    cv::Mat mDisparityMap;
-    cv::Mat mDepthMap;
+        /* Calibration information */
+        cv::Mat mIntrinsicMat;
 
-    /* Calibration information */
-    cv::Mat mIntrinsicMat;
-    cv::Mat mExtrinsicMat;
-    cv::Mat mProjectMat; // mIntrinsic * mExtrinsic
-    cv::Mat mRectifyMat;
+        /* Features extracted and matched */
+        cv::Mat mDescriptor;
+        std::vector<cv::KeyPoint> mFeaturePoints;
 
-    /* Features extracted and matched */
-    cv::Mat mDescriptor;
-    std::vector<cv::KeyPoint> mFeaturePoints;
-    std::vector<cv::Point3f> mMatchedPoints;
+    /* Methods */
+    public:
+        void extractFeaturePoints();
 
-    /* Assistance variables */
-    std::vector<int> mRandVec;
+        View(cv::Mat img) {
+            mImg = img;
+            mIntrinsicMat = cv::Mat(3, 3, CV_32F);
+        }
 
-/* Methods */
-public:
-    void extractFeaturePoints();
+        cv::Mat &img() {
+            return mImg;
+        }
 
-    void matchFeaturePoints(View &r);
+        cv::Mat &intrinsicMat() {
+            return mIntrinsicMat;
+        }
 
-    void restoreMotion(View &r);
+        cv::Mat &intrinsicMat(cv::Mat mat) {
+            return (mIntrinsicMat = mat);
+        }
 
-    void rectify(View &r);
+        cv::Mat &descriptor() {
+            return mDescriptor;
+        }
 
-    View(cv::Mat img) {
-        mImg = img;
-        mIntrinsicMat = cv::Mat(3, 3, CV_32F);
-        mExtrinsicMat = cv::Mat(3, 4, CV_32F);
-    }
-    cv::Mat& img() { return mImg; }
-
-    cv::Mat& projectMat() { return mProjectMat; }
-    cv::Mat& projectMat(cv::Mat mat) { return (mProjectMat = mat); }
-
-    cv::Mat& rectifyMat() { return mRectifyMat; }
-    cv::Mat& rectifyMat(cv::Mat mat) { return (mRectifyMat = mat); }
-
-    cv::Mat& intrinsicMat() { return mIntrinsicMat; }
-    cv::Mat& intrinsicMat(cv::Mat mat) { return (mIntrinsicMat = mat); }
-
-    cv::Mat& extrinsicMat() { return mExtrinsicMat; }
-    cv::Mat& extrinsicMat(cv::Mat mat) { return (mExtrinsicMat = mat); }
-    cv::Mat extrinsicMat(cv::Mat R, cv::Mat t) {
-        cv::Mat roiR = cv::Mat(mExtrinsicMat, cv::Rect(0, 0, 3, 3));
-        R.copyTo(roiR);
-        cv::Mat roiT = mExtrinsicMat(cv::Rect(3, 0, 1, 3));
-        t.copyTo(roiT);
-        return mExtrinsicMat;
-    }
-
-    cv::Mat &getDescriptor() {
-        return mDescriptor;
-    }
-
-    std::vector<cv::KeyPoint>& featurePoints() {
-        return mFeaturePoints;
-    }
-
-    std::vector<cv::Point3f>& matchedPoints() {
-        return mMatchedPoints;
-    }
-
-    void pushMatchedPointWithIndex(int i) {
-        cv::Point2f *pt = &mFeaturePoints[i].pt;
-        mMatchedPoints.push_back(cv::Point3f(pt->x, pt->y, 1.0f));
-    }
-
-private:
-    bool genRandIndex(int length, int base);
-};
+        std::vector<cv::KeyPoint> &featurePoints() {
+            return mFeaturePoints;
+        }
+    };
+}
 
 #endif /* defined __VIEW_H__ */

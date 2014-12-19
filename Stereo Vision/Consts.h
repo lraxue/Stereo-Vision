@@ -6,18 +6,21 @@
 //  Copyright (c) 2014年 PKU. All rights reserved.
 //
 
-#ifndef __CALIB_H__
-#define __CALIB_H__
+#ifndef __CONSTS_H__
+#define __CONSTS_H__
+#include <string>
 
-static float intrisicMat0[3][3] = {
+static double intrisicMat0[3][3] = {
         {6872.874, 0, 1329.49},
         {0, 6872.874, 954.485},
         {0, 0, 1}
 };
 
-static float intrisicMat1[3][3] = {
+static double intrisicMat1[3][3] = {
         {6872.874, 0, 1623.46},
         {0, 6872.874, 954.485},
         {0, 0, 1}
 };
+
+
 #endif

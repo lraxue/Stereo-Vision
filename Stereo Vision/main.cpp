@@ -8,8 +8,10 @@
 
 #include <iostream>
 #include <opencv2/opencv.hpp>
+#include "sv.h"
 #include "View.h"
-#include "calib.h"
+#include "StereoPair.h"
+#include "Consts.h"
 
 using namespace std;
 using namespace cv;
@@ -20,25 +22,24 @@ int main() {
             imgRightPath = dirPath + "im1.png";
 
     Mat imgLeft = imread(imgLeftPath, CV_32FC3),
-            imgRight = imread(imgRightPath, CV_32FC3);
+        imgRight = imread(imgRightPath, CV_32FC3);
 
-    resize(imgLeft, imgLeft, Size(imgLeft.size[1], imgLeft.size[0]));
-    resize(imgRight, imgRight, Size(imgRight.size[1], imgRight.size[0]));
+    resize(imgLeft, imgLeft, Size(imgLeft.size[1] / 4 , imgLeft.size[0] / 4));
+    resize(imgRight, imgRight, Size(imgRight.size[1] / 4, imgRight.size[0] / 4));
 
-    View l = View(imgLeft), r = View(imgRight);
 
-    l.intrinsicMat(Mat(3, 3, CV_32F, intrisicMat0));
-    r.intrinsicMat(Mat(3, 3, CV_32F, intrisicMat1));
+    sv::View l = sv::View(imgLeft), r = sv::View(imgRight);
+
+    l.intrinsicMat(Mat(3, 3, CV_64F, intrisicMat0) / 4);
+    r.intrinsicMat(Mat(3, 3, CV_64F, intrisicMat1) / 4);
 
     l.extractFeaturePoints();
     r.extractFeaturePoints();
 
-    l.matchFeaturePoints(r);
-
-    /*
-    l.restoreMotion(r);
-    l.rectify(r);
-    */
-
+    sv::StereoPair pair = sv::StereoPair(&l, &r);
+    pair.matchFeaturePoints();
+    pair.restoreMotion();
+    pair.rectify();
+    pair.disparity();
     return 0;
 }
