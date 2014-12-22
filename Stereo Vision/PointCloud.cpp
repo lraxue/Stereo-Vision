@@ -9,14 +9,21 @@
 #include <GLUT/glut.h>
 
 namespace sv {
-    void displayPointCloud() {
-        glClear(GL_COLOR_BUFFER_BIT);
-        glutInit(NULL, 0);
-        glutCreateWindow("Point Cloud");
-        glutDisplayFunc(drawPointCloud);
-        glutMainLoop();
-    }
+    void onOpenGlDraw(void *param) {
+        //  Clear screen and Z-buffer
+        glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 
-    void drawPointCloud() {
+        // Reset transformations
+        glLoadIdentity();
+
+        glBegin(GL_POINTS);
+            glColor3f(0.0, 1.0, 0.0);
+            glVertex3f(1.0, 1.0, 1.0);
+            glVertex3f(0.0, 0.0, 0.0);
+            glVertex3f(0.0, 0.5, 0.0);
+        glEnd();
+
+        glFlush();
+        glutSwapBuffers();
     }
 }

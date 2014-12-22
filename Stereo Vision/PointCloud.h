@@ -9,9 +9,7 @@
 #include "sv.h"
 
 namespace sv {
-    void displayPointCloud();
-    void drawPointCloud();
-
+    void onOpenGlDraw(void *data);
     class PointCloud {
     private:
         std::vector<cv::Point3f> mPointCloud;

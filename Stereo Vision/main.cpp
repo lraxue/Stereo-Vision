@@ -8,18 +8,22 @@
 
 #include <iostream>
 #include <opencv2/opencv.hpp>
+#include <OpenGL/gl.h>
+#include <GLUT/glut.h>
+
 #include "sv.h"
 #include "View.h"
+#include "PointCloud.h"
 #include "StereoPair.h"
 
 using namespace std;
 using namespace cv;
-
+#define GLU
 int main() {
     const string dirPath = "/Users/Neo/code/Visual/Stereo-Vision/Assets/";
-
-    Mat imgLeft = imread(dirPath + "B00.jpg", CV_64FC3),
-        imgRight = imread(dirPath + "B01.jpg", CV_64FC3);
+#ifndef GL
+    Mat imgLeft = imread(dirPath + "B01.jpg", CV_64FC3),
+        imgRight = imread(dirPath + "B02.jpg", CV_64FC3);
 
     sv::View l = sv::View(imgLeft), r = sv::View(imgRight);
 
@@ -31,5 +35,20 @@ int main() {
     pair.restoreMotion();
     pair.rectify();
     pair.disparity();
+#endif
+
+#ifdef GL
+    namedWindow("OpenGL-Test", WINDOW_OPENGL);
+    resizeWindow("OpenGL-Test", 640, 480);
+    setOpenGlContext("OpenGL-Test");
+
+    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
+    glEnable(GL_DEPTH_TEST);
+
+    setOpenGlDrawCallback("OpenGL-Test", sv::onOpenGlDraw, NULL);
+    updateWindow("OpenGL-Test");
+    waitKey(-1);
+#endif
+
     return 0;
 }

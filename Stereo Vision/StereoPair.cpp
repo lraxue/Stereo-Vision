@@ -75,7 +75,7 @@ namespace sv {
         stereoRectifyUncalibrated(lMatchedPoints, rMatchedPoints,
                 mFundamentalMat,
                 size,
-                H1, H2, 0);
+                H2, H1, 0);
 
 
         const Mat V = (Mat_<double>(3, 4) <<
@@ -110,8 +110,8 @@ namespace sv {
         transformQuad(V, H1, T1, sizeL);
         transformQuad(V, H2, T2, sizeR);
 
-        warpPerspective(lEpiImg, lRectified, T2, sizeL);
-        warpPerspective(rEpiImg, rRectified, T1, sizeR);
+        warpPerspective(lEpiImg, lRectified, T1, sizeL);
+        warpPerspective(rEpiImg, rRectified, T2, sizeR);
 
         Point2f curPoint;
         for (int i = 0; i < lMatchedPoints.size(); ++i) {
