@@ -4,7 +4,7 @@
 //
 
 #include "StereoPair.h"
-#include "View.h"
+#include "MonoView.h"
 
 using namespace cv;
 using namespace std;
@@ -23,13 +23,14 @@ namespace sv {
             DMatch goodMatch = knnMatches[i][1];
             if (bestMatch.distance < goodMatch.distance * KNN_THRESHOLD) {
                 goodMatchedPoints.push_back(bestMatch);
-                lMatchedPoints.push_back(l->featurePoints()[(bestMatch.queryIdx)].pt);
-                rMatchedPoints.push_back(r->featurePoints()[(bestMatch.trainIdx)].pt);
+                l->pushMatchedPoint(bestMatch.queryIdx);
+                r->pushMatchedPoint(bestMatch.trainIdx);
             }
         }
         cout << "Good Matches: " << goodMatchedPoints.size() << endl;
         Mat matchImg;
-        drawMatches(l->img(), l->featurePoints(), r->img(), r->featurePoints(),
+        drawMatches(l->img(), l->featurePoints(),
+                    r->img(), r->featurePoints(),
                 goodMatchedPoints, matchImg,
                 Scalar::all(-1), Scalar::all(-1), vector<char>(),
                 DrawMatchesFlags::NOT_DRAW_SINGLE_POINTS);
@@ -38,20 +39,15 @@ namespace sv {
 
     void StereoPair::restoreMotion() {
         Mat status;
-        mF = findFundamentalMat(lMatchedPoints, rMatchedPoints, cv::FM_RANSAC, 3, 0.99, status);
-        mF.convertTo(mFundamentalMat, CV_64F);
+        mF = findFundamentalMat(l->matchedPoints(), r->matchedPoints(), cv::FM_RANSAC, 3, 0.99, status);
 
-        computeCorrespondEpilines(lMatchedPoints, 1, mF, lEpiLines);
-        l->img().copyTo(lEpiImg);
-        drawEpiLines(lEpiLines, lEpiImg);
-        //drawMatchedPoints(lMatchedPoints, lEpiImg);
-        imwrite(resPath + "epi-L.png", lEpiImg);
+        l->drawEpipolarLines(mF, palette);
+        l->drawMatchedPoints(palette, l->epipolarImg());
+        imwrite(resPath + "epi-L.png", l->epipolarImg());
 
-        computeCorrespondEpilines(rMatchedPoints, 2, mF, rEpiLines);
-        r->img().copyTo(rEpiImg);
-        drawEpiLines(rEpiLines, rEpiImg);
-        //drawMatchedPoints(rMatchedPoints, rEpiImg);
-        imwrite(resPath + "epi-R.png", rEpiImg);
+        r->drawEpipolarLines(mF, palette);
+        r->drawMatchedPoints(palette, r->epipolarImg());
+        imwrite(resPath + "epi-L.png", r->epipolarImg());
 
 /*
         Mat E = r->intrinsicMat().t() * mFundamentalMat * l->intrinsicMat();
@@ -72,8 +68,8 @@ namespace sv {
     void StereoPair::rectify() {
         Mat H1, H2;
         Size size = Size(l->img().cols * 1.2, l->img().rows * 1.2);
-        stereoRectifyUncalibrated(lMatchedPoints, rMatchedPoints,
-                mFundamentalMat,
+        stereoRectifyUncalibrated(l->matchedPoints(), r->matchedPoints(),
+                mF,
                 size,
                 H2, H1, 0);
 
@@ -110,46 +106,30 @@ namespace sv {
         transformQuad(V, H1, T1, sizeL);
         transformQuad(V, H2, T2, sizeR);
 
-        warpPerspective(lEpiImg, lRectified, T1, sizeL);
-        warpPerspective(rEpiImg, rRectified, T2, sizeR);
+        warpPerspective(l->epipolarImg(), l->rectifiedImg(), T1, sizeL);
+        warpPerspective(r->epipolarImg(), r->rectifiedImg(), T2, sizeR);
 
         Point2f curPoint;
-        for (int i = 0; i < lMatchedPoints.size(); ++i) {
-            curPoint.x = 0, curPoint.y = lMatchedPoints[i].y;
+        for (int i = 0; i < l->matchedPoints().size(); ++i) {
+            curPoint.x = 0, curPoint.y = l->matchedPoints()[i].y;
             int offsetlX = (int) transformPoint(T1, curPoint).x;
-            curPoint.x = 0, curPoint.y = rMatchedPoints[i].y;
+            curPoint.x = 0, curPoint.y = r->matchedPoints()[i].y;
             int offsetrX = (int) transformPoint(T2, curPoint).x;
 
-            transformPoint(T1, lMatchedPoints[i]);
-            transformPoint(T2, rMatchedPoints[i]);
-            mSparseDisparity.push_back((lMatchedPoints[i].x - offsetlX) - (rMatchedPoints[i].x - offsetrX));
+            transformPoint(T1, l->matchedPoints()[i]);
+            transformPoint(T2, r->matchedPoints()[i]);
+            mSparseDisparity.push_back((l->matchedPoints()[i].x - offsetlX) - (r->matchedPoints()[i].x - offsetrX));
         }
 
-        drawMatchedPoints(lMatchedPoints, lRectified);
-        drawMatchedPoints(rMatchedPoints, rRectified);
+        l->drawMatchedPoints(palette, l->rectifiedImg());
+        r->drawMatchedPoints(palette, r->rectifiedImg());
 
-        imwrite(resPath + "rectify-L.png", lRectified);
-        imwrite(resPath + "rectify-R.png", rRectified);
+        imwrite(resPath + "rectify-L.png", l->rectifiedImg());
+        imwrite(resPath + "rectify-R.png", r->rectifiedImg());
     }
 
     void StereoPair::disparity() {
 
     }
 
-    void StereoPair::drawEpiLines(vector<Point3f>& lines, Mat &img) {
-        for (int i = 0; i < lines.size(); ++i) {
-            Point3f *pt = &lines[i];
-            line(img,
-                    Point(0,- pt->z/pt->y),
-                    Point(l->img().cols,-(pt->z + pt->x* l->img().cols)/pt->y),
-                    palette[i % PALETTE_SIZE]);
-        }
-    }
-
-    void StereoPair::drawMatchedPoints(vector<Point2f>& points, Mat &img) {
-        for (int i = 0; i < points.size(); ++i) {
-            Point2f *pt = &points[i];
-            circle(img, Point(pt->x, pt->y), 3, palette[i % PALETTE_SIZE]);
-        }
-    }
 }

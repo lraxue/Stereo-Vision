@@ -20,7 +20,8 @@ namespace sv {
     const static int PALETTE_SIZE = 100;
     const static float KNN_THRESHOLD = 0.5f;
 
-    class View;
+    class MonoView;
+    class StereoView;
     class StereoPair;
     class PointCloud;
 };

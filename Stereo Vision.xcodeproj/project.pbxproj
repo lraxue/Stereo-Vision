@@ -26,8 +26,9 @@
 		13178BBB8CDE239A5EBC5483 /* libopencv_stitching.2.4.10.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 131783D3FC6C60C7354F6422 /* libopencv_stitching.2.4.10.dylib */; };
 		13178C60A609B1E915F670ED /* libopencv_flann.2.4.10.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 131784C6537CBE7E4A00DB4E /* libopencv_flann.2.4.10.dylib */; };
 		13178D8C3639E8EF623050B1 /* libopencv_objdetect.2.4.10.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 13178DCD03BB7159206986F6 /* libopencv_objdetect.2.4.10.dylib */; };
+		13178EDE688B824EF01A8063 /* StereoView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1317800514EAA199A7935FAE /* StereoView.cpp */; };
 		B590979A1A285CAB00F4DABB /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B59097991A285CAB00F4DABB /* main.cpp */; };
-		B5F1457F1A2F061700C8AFE5 /* View.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5F1457D1A2F061700C8AFE5 /* View.cpp */; };
+		B5F1457F1A2F061700C8AFE5 /* MonoView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5F1457D1A2F061700C8AFE5 /* MonoView.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -43,6 +44,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		1317800514EAA199A7935FAE /* StereoView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StereoView.cpp; sourceTree = "<group>"; };
 		1317812248BE5E7F7ED20634 /* sv.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sv.h; sourceTree = "<group>"; };
 		13178227EE8A5E3FC27FF35E /* libopencv_core.2.4.10.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libopencv_core.2.4.10.dylib; path = /usr/local/lib/libopencv_core.2.4.10.dylib; sourceTree = "<absolute>"; };
 		1317833EF383620F3946CF5A /* libopencv_photo.2.4.10.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libopencv_photo.2.4.10.dylib; path = /usr/local/lib/libopencv_photo.2.4.10.dylib; sourceTree = "<absolute>"; };
@@ -52,6 +54,7 @@
 		131784C6537CBE7E4A00DB4E /* libopencv_flann.2.4.10.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libopencv_flann.2.4.10.dylib; path = /usr/local/lib/libopencv_flann.2.4.10.dylib; sourceTree = "<absolute>"; };
 		131784F7015BBC55FA2A6B79 /* PointCloud.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PointCloud.h; sourceTree = "<group>"; };
 		131785FA534E7FA73282C0AE /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = System/Library/Frameworks/GLUT.framework; sourceTree = SDKROOT; };
+		131786722F8A736764435008 /* StereoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StereoView.h; sourceTree = "<group>"; };
 		131786939C4940B2128AE628 /* StereoPair.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StereoPair.cpp; sourceTree = "<group>"; };
 		131786E4060C927C1F7DDAAB /* libopencv_legacy.2.4.10.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libopencv_legacy.2.4.10.dylib; path = /usr/local/lib/libopencv_legacy.2.4.10.dylib; sourceTree = "<absolute>"; };
 		13178730B6E18F8E21A60507 /* im0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = im0.png; sourceTree = "<group>"; };
@@ -69,9 +72,8 @@
 		13178FC35CEBB91562CC7838 /* StereoPair.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StereoPair.h; sourceTree = "<group>"; };
 		B59097961A285CAB00F4DABB /* Stereo Vision */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "Stereo Vision"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B59097991A285CAB00F4DABB /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
-		B5F1457A1A2EF4B900C8AFE5 /* Consts.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Consts.h; sourceTree = "<group>"; };
-		B5F1457D1A2F061700C8AFE5 /* View.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = View.cpp; sourceTree = "<group>"; };
-		B5F1457E1A2F061700C8AFE5 /* View.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = View.h; sourceTree = "<group>"; };
+		B5F1457D1A2F061700C8AFE5 /* MonoView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MonoView.cpp; sourceTree = "<group>"; };
+		B5F1457E1A2F061700C8AFE5 /* MonoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MonoView.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -174,14 +176,15 @@
 			isa = PBXGroup;
 			children = (
 				B59097991A285CAB00F4DABB /* main.cpp */,
-				B5F1457D1A2F061700C8AFE5 /* View.cpp */,
-				B5F1457E1A2F061700C8AFE5 /* View.h */,
-				B5F1457A1A2EF4B900C8AFE5 /* Consts.h */,
+				B5F1457D1A2F061700C8AFE5 /* MonoView.cpp */,
+				B5F1457E1A2F061700C8AFE5 /* MonoView.h */,
 				1317812248BE5E7F7ED20634 /* sv.h */,
 				131786939C4940B2128AE628 /* StereoPair.cpp */,
 				13178FC35CEBB91562CC7838 /* StereoPair.h */,
 				13178DFBA602B97C882BC776 /* PointCloud.cpp */,
 				131784F7015BBC55FA2A6B79 /* PointCloud.h */,
+				1317800514EAA199A7935FAE /* StereoView.cpp */,
+				131786722F8A736764435008 /* StereoView.h */,
 			);
 			path = "Stereo Vision";
 			sourceTree = "<group>";
@@ -242,10 +245,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B5F1457F1A2F061700C8AFE5 /* View.cpp in Sources */,
+				B5F1457F1A2F061700C8AFE5 /* MonoView.cpp in Sources */,
 				B590979A1A285CAB00F4DABB /* main.cpp in Sources */,
 				131785CB29C70E4290D269B3 /* StereoPair.cpp in Sources */,
 				1317824B866A0D0DC06984E5 /* PointCloud.cpp in Sources */,
+				13178EDE688B824EF01A8063 /* StereoView.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

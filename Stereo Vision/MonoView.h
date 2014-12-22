@@ -1,5 +1,5 @@
 //
-//  View.h
+//  MonoView.h
 //  Stereo Vision
 //
 //  Created by Neo on 14-12-3.
@@ -12,7 +12,7 @@
 #include "sv.h"
 
 namespace sv {
-    class View {
+    class MonoView {
 
     /* Members */
     private:
@@ -30,9 +30,9 @@ namespace sv {
     public:
         void extractFeaturePoints();
 
-        View(cv::Mat img) {
+        MonoView() {}
+        MonoView(cv::Mat img) {
             mImg = img;
-            mIntrinsicMat = cv::Mat(3, 3, CV_32F);
         }
 
         cv::Mat &img() {

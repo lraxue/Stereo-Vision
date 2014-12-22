@@ -12,9 +12,10 @@
 #include <GLUT/glut.h>
 
 #include "sv.h"
-#include "View.h"
-#include "PointCloud.h"
+#include "MonoView.h"
+#include "StereoView.h"
 #include "StereoPair.h"
+#include "PointCloud.h"
 
 using namespace std;
 using namespace cv;
@@ -25,7 +26,7 @@ int main() {
     Mat imgLeft = imread(dirPath + "B01.jpg", CV_64FC3),
         imgRight = imread(dirPath + "B02.jpg", CV_64FC3);
 
-    sv::View l = sv::View(imgLeft), r = sv::View(imgRight);
+    sv::MonoView l = sv::MonoView(imgLeft), r = sv::MonoView(imgRight);
 
     l.extractFeaturePoints();
     r.extractFeaturePoints();

@@ -8,28 +8,15 @@
 #define __StereoPair_H_
 
 #include "sv.h"
+#include "MonoView.h"
+#include "StereoView.h"
 
 namespace sv {
     class StereoPair {
     private:
-        View *l;
-        View *r;
+        StereoView *l;
+        StereoView *r;
 
-        cv::Mat lEpiImg;
-        cv::Mat lRectified;
-        cv::Mat lR;
-        cv::Mat lT;
-        std::vector<cv::Point2f> lMatchedPoints;
-        std::vector<cv::Point3f> lEpiLines;
-
-        cv::Mat rEpiImg;
-        cv::Mat rRectified;
-        cv::Mat rR;
-        cv::Mat rT;
-        std::vector<cv::Point2f> rMatchedPoints;
-        std::vector<cv::Point3f> rEpiLines;
-
-        cv::Mat mFundamentalMat;
         cv::Mat mF;
         cv::Mat mEssentialMat;
 
@@ -38,21 +25,23 @@ namespace sv {
         std::vector<int> mSparseDisparity;
 
     public:
-        StereoPair(View *left, View *right) {
-            l = left;
-            r = right;
+        StereoPair(MonoView *left, MonoView *right) {
+            l = new StereoView(left);
+            r = new StereoView(right);
             for (int i = 0; i < PALETTE_SIZE; ++i) {
                 palette.push_back(cv::Scalar(rand() % 255, rand() % 255, rand() % 255));
             }
+        }
+
+        ~StereoPair() {
+            if (nullptr != l) delete l;
+            if (nullptr != r) delete r;
         }
 
         void matchFeaturePoints();
         void restoreMotion();
         void rectify();
         void disparity();
-
-        void drawEpiLines(std::vector<cv::Point3f>&, cv::Mat&);
-        void drawMatchedPoints(std::vector<cv::Point2f>&, cv::Mat&);
     };
 }
 
