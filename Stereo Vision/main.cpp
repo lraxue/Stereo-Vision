@@ -8,37 +8,47 @@
 
 #include <iostream>
 #include <opencv2/opencv.hpp>
+#include <OpenGL/gl.h>
+#include <GLUT/glut.h>
+
+#include "sv.h"
 #include "View.h"
-#include "calib.h"
+#include "PointCloud.h"
+#include "StereoPair.h"
 
 using namespace std;
 using namespace cv;
-
+#define GLU
 int main() {
-    const string dirPath = "/Users/Neo/code/Visual/Stereo-Vision/Assets/",
-            imgLeftPath = dirPath + "im0.png",
-            imgRightPath = dirPath + "im1.png";
+    const string dirPath = "/Users/Neo/code/Visual/Stereo-Vision/Assets/";
+#ifndef GL
+    Mat imgLeft = imread(dirPath + "B01.jpg", CV_64FC3),
+        imgRight = imread(dirPath + "B02.jpg", CV_64FC3);
 
-    Mat imgLeft = imread(imgLeftPath, CV_32FC3),
-            imgRight = imread(imgRightPath, CV_32FC3);
-
-    resize(imgLeft, imgLeft, Size(imgLeft.size[1], imgLeft.size[0]));
-    resize(imgRight, imgRight, Size(imgRight.size[1], imgRight.size[0]));
-
-    View l = View(imgLeft), r = View(imgRight);
-
-    l.intrinsicMat(Mat(3, 3, CV_32F, intrisicMat0));
-    r.intrinsicMat(Mat(3, 3, CV_32F, intrisicMat1));
+    sv::View l = sv::View(imgLeft), r = sv::View(imgRight);
 
     l.extractFeaturePoints();
     r.extractFeaturePoints();
 
-    l.matchFeaturePoints(r);
+    sv::StereoPair pair = sv::StereoPair(&l, &r);
+    pair.matchFeaturePoints();
+    pair.restoreMotion();
+    pair.rectify();
+    pair.disparity();
+#endif
 
-    /*
-    l.restoreMotion(r);
-    l.rectify(r);
-    */
+#ifdef GL
+    namedWindow("OpenGL-Test", WINDOW_OPENGL);
+    resizeWindow("OpenGL-Test", 640, 480);
+    setOpenGlContext("OpenGL-Test");
+
+    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
+    glEnable(GL_DEPTH_TEST);
+
+    setOpenGlDrawCallback("OpenGL-Test", sv::onOpenGlDraw, NULL);
+    updateWindow("OpenGL-Test");
+    waitKey(-1);
+#endif
 
     return 0;
 }

@@ -26,8 +26,85 @@
     <content url="file:///usr/local/Cellar/opencv/2.4.9/lib/libopencv_objdetect.2.4.9.dylib">
       <sourceFolder url="file:///usr/local/Cellar/opencv/2.4.9/lib/libopencv_objdetect.2.4.9.dylib" isTestSource="false" />
     </content>
+    <content url="file:///usr/local/lib/libopencv_calib3d.2.4.10.dylib">
+      <sourceFolder url="file:///usr/local/lib/libopencv_calib3d.2.4.10.dylib" isTestSource="false" />
+    </content>
+    <content url="file:///usr/local/lib/libopencv_calib3d.3.0.0.dylib">
+      <sourceFolder url="file:///usr/local/lib/libopencv_calib3d.3.0.0.dylib" isTestSource="false" />
+    </content>
+    <content url="file:///usr/local/lib/libopencv_contrib.2.4.10.dylib">
+      <sourceFolder url="file:///usr/local/lib/libopencv_contrib.2.4.10.dylib" isTestSource="false" />
+    </content>
+    <content url="file:///usr/local/lib/libopencv_core.2.4.10.dylib">
+      <sourceFolder url="file:///usr/local/lib/libopencv_core.2.4.10.dylib" isTestSource="false" />
+    </content>
+    <content url="file:///usr/local/lib/libopencv_core.3.0.0.dylib">
+      <sourceFolder url="file:///usr/local/lib/libopencv_core.3.0.0.dylib" isTestSource="false" />
+    </content>
+    <content url="file:///usr/local/lib/libopencv_features2d.2.4.10.dylib">
+      <sourceFolder url="file:///usr/local/lib/libopencv_features2d.2.4.10.dylib" isTestSource="false" />
+    </content>
+    <content url="file:///usr/local/lib/libopencv_features2d.3.0.0.dylib">
+      <sourceFolder url="file:///usr/local/lib/libopencv_features2d.3.0.0.dylib" isTestSource="false" />
+    </content>
+    <content url="file:///usr/local/lib/libopencv_flann.2.4.10.dylib">
+      <sourceFolder url="file:///usr/local/lib/libopencv_flann.2.4.10.dylib" isTestSource="false" />
+    </content>
+    <content url="file:///usr/local/lib/libopencv_flann.3.0.0.dylib">
+      <sourceFolder url="file:///usr/local/lib/libopencv_flann.3.0.0.dylib" isTestSource="false" />
+    </content>
+    <content url="file:///usr/local/lib/libopencv_highgui.2.4.10.dylib">
+      <sourceFolder url="file:///usr/local/lib/libopencv_highgui.2.4.10.dylib" isTestSource="false" />
+    </content>
+    <content url="file:///usr/local/lib/libopencv_highgui.3.0.0.dylib">
+      <sourceFolder url="file:///usr/local/lib/libopencv_highgui.3.0.0.dylib" isTestSource="false" />
+    </content>
+    <content url="file:///usr/local/lib/libopencv_imgcodecs.3.0.0.dylib">
+      <sourceFolder url="file:///usr/local/lib/libopencv_imgcodecs.3.0.0.dylib" isTestSource="false" />
+    </content>
+    <content url="file:///usr/local/lib/libopencv_imgproc.2.4.10.dylib">
+      <sourceFolder url="file:///usr/local/lib/libopencv_imgproc.2.4.10.dylib" isTestSource="false" />
+    </content>
+    <content url="file:///usr/local/lib/libopencv_imgproc.3.0.0.dylib">
+      <sourceFolder url="file:///usr/local/lib/libopencv_imgproc.3.0.0.dylib" isTestSource="false" />
+    </content>
+    <content url="file:///usr/local/lib/libopencv_legacy.2.4.10.dylib">
+      <sourceFolder url="file:///usr/local/lib/libopencv_legacy.2.4.10.dylib" isTestSource="false" />
+    </content>
+    <content url="file:///usr/local/lib/libopencv_ml.2.4.10.dylib">
+      <sourceFolder url="file:///usr/local/lib/libopencv_ml.2.4.10.dylib" isTestSource="false" />
+    </content>
+    <content url="file:///usr/local/lib/libopencv_ml.3.0.0.dylib">
+      <sourceFolder url="file:///usr/local/lib/libopencv_ml.3.0.0.dylib" isTestSource="false" />
+    </content>
+    <content url="file:///usr/local/lib/libopencv_nonfree.2.4.10.dylib">
+      <sourceFolder url="file:///usr/local/lib/libopencv_nonfree.2.4.10.dylib" isTestSource="false" />
+    </content>
+    <content url="file:///usr/local/lib/libopencv_objdetect.2.4.10.dylib">
+      <sourceFolder url="file:///usr/local/lib/libopencv_objdetect.2.4.10.dylib" isTestSource="false" />
+    </content>
+    <content url="file:///usr/local/lib/libopencv_objdetect.3.0.0.dylib">
+      <sourceFolder url="file:///usr/local/lib/libopencv_objdetect.3.0.0.dylib" isTestSource="false" />
+    </content>
+    <content url="file:///usr/local/lib/libopencv_ocl.2.4.10.dylib">
+      <sourceFolder url="file:///usr/local/lib/libopencv_ocl.2.4.10.dylib" isTestSource="false" />
+    </content>
+    <content url="file:///usr/local/lib/libopencv_photo.2.4.10.dylib">
+      <sourceFolder url="file:///usr/local/lib/libopencv_photo.2.4.10.dylib" isTestSource="false" />
+    </content>
+    <content url="file:///usr/local/lib/libopencv_photo.3.0.0.dylib">
+      <sourceFolder url="file:///usr/local/lib/libopencv_photo.3.0.0.dylib" isTestSource="false" />
+    </content>
+    <content url="file:///usr/local/lib/libopencv_stitching.2.4.10.dylib">
+      <sourceFolder url="file:///usr/local/lib/libopencv_stitching.2.4.10.dylib" isTestSource="false" />
+    </content>
+    <content url="file:///usr/local/lib/libopencv_stitching.3.0.0.dylib">
+      <sourceFolder url="file:///usr/local/lib/libopencv_stitching.3.0.0.dylib" isTestSource="false" />
+    </content>
+    <content url="file:///usr/local/lib/libopencv_superres.3.0.0.dylib">
+      <sourceFolder url="file:///usr/local/lib/libopencv_superres.3.0.0.dylib" isTestSource="false" />
+    </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
 </module>
-
