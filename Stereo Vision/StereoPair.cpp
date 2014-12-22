@@ -30,27 +30,30 @@ namespace sv {
         cout << "Good Matches: " << goodMatchedPoints.size() << endl;
         Mat matchImg;
         drawMatches(l->img(), l->featurePoints(), r->img(), r->featurePoints(),
-                goodMatchedPoints, matchImg);
+                goodMatchedPoints, matchImg,
+                Scalar::all(-1), Scalar::all(-1), vector<char>(),
+                DrawMatchesFlags::NOT_DRAW_SINGLE_POINTS);
         imwrite(resPath + "match.png", matchImg);
     }
 
     void StereoPair::restoreMotion() {
         Mat status;
-        Mat F = findFundamentalMat(lMatchedPoints, rMatchedPoints, cv::FM_RANSAC, 3, 0.99, status);
-        F.convertTo(mFundamentalMat, CV_64F);
-        cout << "Fundamental Matrix: " << mFundamentalMat << endl;
+        mF = findFundamentalMat(lMatchedPoints, rMatchedPoints, cv::FM_RANSAC, 3, 0.99, status);
+        mF.convertTo(mFundamentalMat, CV_64F);
 
-        computeCorrespondEpilines(lMatchedPoints, 1, F, lEpiLines);
+        computeCorrespondEpilines(lMatchedPoints, 1, mF, lEpiLines);
         l->img().copyTo(lEpiImg);
         drawEpiLines(lEpiLines, lEpiImg);
+        //drawMatchedPoints(lMatchedPoints, lEpiImg);
         imwrite(resPath + "epi-L.png", lEpiImg);
 
-        computeCorrespondEpilines(rMatchedPoints, 2, F, rEpiLines);
+        computeCorrespondEpilines(rMatchedPoints, 2, mF, rEpiLines);
         r->img().copyTo(rEpiImg);
         drawEpiLines(rEpiLines, rEpiImg);
+        //drawMatchedPoints(rMatchedPoints, rEpiImg);
         imwrite(resPath + "epi-R.png", rEpiImg);
 
-
+/*
         Mat E = r->intrinsicMat().t() * mFundamentalMat * l->intrinsicMat();
         SVD svd(E);
         Mat W = (Mat_<double>(3, 3) << 0, 1, 0, -1, 0, 0, 0, 0, 0);
@@ -63,14 +66,17 @@ namespace sv {
         rT = T / norm(T);
         cout << "R: " << rR << endl;
         cout << "T: " << rT << endl;
+*/
     }
 
     void StereoPair::rectify() {
         Mat H1, H2;
+        Size size = Size(l->img().cols * 1.2, l->img().rows * 1.2);
         stereoRectifyUncalibrated(lMatchedPoints, rMatchedPoints,
                 mFundamentalMat,
-                Size(l->img().cols, l->img().rows),
-                H1, H2);
+                size,
+                H1, H2, 0);
+
 
         const Mat V = (Mat_<double>(3, 4) <<
                  0, 0, l->img().cols, l->img().cols,
@@ -100,20 +106,28 @@ namespace sv {
         Mat T1, T2;
         Size sizeL, sizeR;
 
+
         transformQuad(V, H1, T1, sizeL);
-        warpPerspective(lEpiImg, lRectified, T1, sizeL);
-
         transformQuad(V, H2, T2, sizeR);
-        warpPerspective(rEpiImg, rRectified, T2, sizeR);
 
+        warpPerspective(lEpiImg, lRectified, T2, sizeL);
+        warpPerspective(rEpiImg, rRectified, T1, sizeR);
+
+        Point2f curPoint;
         for (int i = 0; i < lMatchedPoints.size(); ++i) {
+            curPoint.x = 0, curPoint.y = lMatchedPoints[i].y;
+            int offsetlX = (int) transformPoint(T1, curPoint).x;
+            curPoint.x = 0, curPoint.y = rMatchedPoints[i].y;
+            int offsetrX = (int) transformPoint(T2, curPoint).x;
+
             transformPoint(T1, lMatchedPoints[i]);
             transformPoint(T2, rMatchedPoints[i]);
-            cout << "Left: " << lMatchedPoints[i] << endl;
-            cout << "Right: " << rMatchedPoints[i] << endl;
+            mSparseDisparity.push_back((lMatchedPoints[i].x - offsetlX) - (rMatchedPoints[i].x - offsetrX));
         }
+
         drawMatchedPoints(lMatchedPoints, lRectified);
         drawMatchedPoints(rMatchedPoints, rRectified);
+
         imwrite(resPath + "rectify-L.png", lRectified);
         imwrite(resPath + "rectify-R.png", rRectified);
     }

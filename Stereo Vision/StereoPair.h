@@ -30,10 +30,12 @@ namespace sv {
         std::vector<cv::Point3f> rEpiLines;
 
         cv::Mat mFundamentalMat;
+        cv::Mat mF;
         cv::Mat mEssentialMat;
 
         cv::Mat mDisparity;
         std::vector<cv::Scalar> palette;
+        std::vector<int> mSparseDisparity;
 
     public:
         StereoPair(View *left, View *right) {

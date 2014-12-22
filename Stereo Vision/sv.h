@@ -18,7 +18,7 @@
 namespace sv {
     const static std::string resPath = "/Users/Neo/code/Visual/Stereo-Vision/Results/";
     const static int PALETTE_SIZE = 100;
-    const static float KNN_THRESHOLD = 0.40f;
+    const static float KNN_THRESHOLD = 0.5f;
 
     class View;
     class StereoPair;
