@@ -9,10 +9,10 @@ namespace sv {
     /* Can't convert from derived class to base class. */
     /* Have to explicitly copy contents */
     StereoView::StereoView(MonoView *monoView) {
-        monoView->img().copyTo(this->img());
-        monoView->img().copyTo(this->mEpiImg);
-        monoView->intrinsicMat().copyTo(this->intrinsicMat());
-        monoView->descriptor().copyTo(this->descriptor());
+        this->img() = monoView->img();
+        this->mEpiImg = monoView->img();
+        this->intrinsicMat() = monoView->intrinsicMat();
+        this->descriptor() = monoView->descriptor();
         this->featurePoints() = monoView->featurePoints();
     }
 
@@ -20,8 +20,8 @@ namespace sv {
         mMatchedPoints.push_back(featurePoints()[index].pt);
     }
 
-    void StereoView::drawEpipolarLines(cv::Mat &F, std::vector<cv::Scalar>& palette) {
-        computeCorrespondEpilines(mMatchedPoints, 1, F, mEpiLines);
+    void StereoView::drawEpipolarLines(cv::Mat &F, int i, std::vector<cv::Scalar>& palette) {
+        computeCorrespondEpilines(mMatchedPoints, i, F, mEpiLines);
         for (int i = 0; i < mEpiLines.size(); ++i) {
             cv::Point3f *pt = &mEpiLines[i];
             line(mEpiImg,

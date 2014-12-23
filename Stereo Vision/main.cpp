@@ -35,7 +35,7 @@ int main() {
     pair.matchFeaturePoints();
     pair.restoreMotion();
     pair.rectify();
-    pair.disparity();
+    //pair.disparity();
 #endif
 
 #ifdef GL

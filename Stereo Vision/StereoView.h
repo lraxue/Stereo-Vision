@@ -23,7 +23,7 @@ namespace sv {
         StereoView(MonoView *);
 
         void pushMatchedPoint(int index);
-        void drawEpipolarLines(cv::Mat &, std::vector<cv::Scalar>&);
+        void drawEpipolarLines(cv::Mat &, int , std::vector<cv::Scalar>&);
         void drawMatchedPoints(std::vector<cv::Scalar>&, cv::Mat &img);
 
         cv::Mat &epipolarImg() {
@@ -32,6 +32,7 @@ namespace sv {
         cv::Mat &rectifiedImg() {
             return mRectified;
         }
+
         std::vector<cv::Point2f>& matchedPoints() {
             return mMatchedPoints;
         }

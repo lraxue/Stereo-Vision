@@ -41,13 +41,13 @@ namespace sv {
         Mat status;
         mF = findFundamentalMat(l->matchedPoints(), r->matchedPoints(), cv::FM_RANSAC, 3, 0.99, status);
 
-        l->drawEpipolarLines(mF, palette);
+        l->drawEpipolarLines(mF, LEFT, palette);
         l->drawMatchedPoints(palette, l->epipolarImg());
         imwrite(resPath + "epi-L.png", l->epipolarImg());
 
-        r->drawEpipolarLines(mF, palette);
+        r->drawEpipolarLines(mF, RIGHT, palette);
         r->drawMatchedPoints(palette, r->epipolarImg());
-        imwrite(resPath + "epi-L.png", r->epipolarImg());
+        imwrite(resPath + "epi-R.png", r->epipolarImg());
 
 /*
         Mat E = r->intrinsicMat().t() * mFundamentalMat * l->intrinsicMat();
@@ -99,16 +99,16 @@ namespace sv {
             return pt;
         };
 
+
         Mat T1, T2;
         Size sizeL, sizeR;
-
 
         transformQuad(V, H1, T1, sizeL);
         transformQuad(V, H2, T2, sizeR);
 
         warpPerspective(l->epipolarImg(), l->rectifiedImg(), T1, sizeL);
         warpPerspective(r->epipolarImg(), r->rectifiedImg(), T2, sizeR);
-
+/*
         Point2f curPoint;
         for (int i = 0; i < l->matchedPoints().size(); ++i) {
             curPoint.x = 0, curPoint.y = l->matchedPoints()[i].y;
@@ -120,9 +120,9 @@ namespace sv {
             transformPoint(T2, r->matchedPoints()[i]);
             mSparseDisparity.push_back((l->matchedPoints()[i].x - offsetlX) - (r->matchedPoints()[i].x - offsetrX));
         }
-
-        l->drawMatchedPoints(palette, l->rectifiedImg());
-        r->drawMatchedPoints(palette, r->rectifiedImg());
+*/
+        //l->drawMatchedPoints(palette, l->rectifiedImg());
+        //r->drawMatchedPoints(palette, r->rectifiedImg());
 
         imwrite(resPath + "rectify-L.png", l->rectifiedImg());
         imwrite(resPath + "rectify-R.png", r->rectifiedImg());
