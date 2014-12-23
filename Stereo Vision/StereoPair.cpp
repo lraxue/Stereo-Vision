@@ -39,37 +39,33 @@ namespace sv {
 
     void StereoPair::restoreMotion() {
         Mat status;
-        mF = findFundamentalMat(l->matchedPoints(), r->matchedPoints(), cv::FM_RANSAC, 3, 0.99, status);
+        mFundamentalMat =
+                findFundamentalMat(l->matchedPoints(), r->matchedPoints(), cv::FM_RANSAC, 3, 0.99, status);
 
-        l->drawEpipolarLines(mF, LEFT, palette);
+        l->drawEpipolarLines(mFundamentalMat, LEFT, palette);
         l->drawMatchedPoints(palette, l->epipolarImg());
         imwrite(resPath + "epi-L.png", l->epipolarImg());
 
-        r->drawEpipolarLines(mF, RIGHT, palette);
+        r->drawEpipolarLines(mFundamentalMat, RIGHT, palette);
         r->drawMatchedPoints(palette, r->epipolarImg());
         imwrite(resPath + "epi-R.png", r->epipolarImg());
 
-/*
-        Mat E = r->intrinsicMat().t() * mFundamentalMat * l->intrinsicMat();
-        SVD svd(E);
+        mEssentialMat = r->intrinsicMat().t() * mFundamentalMat * l->intrinsicMat();
+        SVD svd(mEssentialMat);
         Mat W = (Mat_<double>(3, 3) << 0, 1, 0, -1, 0, 0, 0, 0, 0);
         Mat R = svd.u * W * svd.vt, T = svd.u.col(2);
 
-        lR = Mat::eye(3, 3, CV_64F);
-        lT = (Mat_<double>(3, 1) << (0, 0, 0));
+        l->R(Mat::eye(3, 3, CV_64F));
+        r->R(R / norm(R));
 
-        rR = R / norm(R);
-        rT = T / norm(T);
-        cout << "R: " << rR << endl;
-        cout << "T: " << rT << endl;
-*/
+        cout << "R: " << r->R() << endl;
     }
 
     void StereoPair::rectify() {
         Mat H1, H2;
         Size size = Size(l->img().cols * 1.2, l->img().rows * 1.2);
         stereoRectifyUncalibrated(l->matchedPoints(), r->matchedPoints(),
-                mF,
+                mFundamentalMat,
                 size,
                 H2, H1, 0);
 

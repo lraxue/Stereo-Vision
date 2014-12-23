@@ -17,7 +17,7 @@ namespace sv {
         StereoView *l;
         StereoView *r;
 
-        cv::Mat mF;
+        cv::Mat mFundamentalMat;
         cv::Mat mEssentialMat;
 
         cv::Mat mDisparity;

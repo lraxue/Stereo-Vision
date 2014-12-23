@@ -32,6 +32,12 @@ namespace sv {
         cv::Mat &rectifiedImg() {
             return mRectified;
         }
+        cv::Mat &R() {
+            return mR;
+        }
+        cv::Mat &R(cv::Mat r) {
+            return (mR = r);
+        }
 
         std::vector<cv::Point2f>& matchedPoints() {
             return mMatchedPoints;

@@ -33,6 +33,7 @@ namespace sv {
         MonoView() {}
         MonoView(cv::Mat img) {
             mImg = img;
+            mIntrinsicMat = cv::Mat::eye(3, 3, CV_64F);
         }
 
         cv::Mat &img() {
