@@ -14,7 +14,8 @@ namespace sv {
     class StereoView : public MonoView {
     private:
         cv::Mat mEpiImg;
-        cv::Mat mRectified;
+        cv::Mat mRectifiedImg;
+
         cv::Mat mR;
         cv::Mat mQ;
         std::vector<cv::Point2f> mMatchedPoints;
@@ -25,16 +26,18 @@ namespace sv {
 
         void pushMatchedPoint(int index);
 
-        void drawEpipolarLines(cv::Mat &, int, std::vector<cv::Scalar> &);
+        void drawEpipolarLines(std::vector<cv::Scalar> &);
 
-        void drawMatchedPoints(std::vector<cv::Scalar> &, cv::Mat &img);
+        void drawMatchedPoints(cv::Mat &, std::vector<cv::Scalar> &);
+
+        void rectify(cv::Mat &H, std::vector<cv::Scalar> &);
 
         cv::Mat &epipolarImg() {
             return mEpiImg;
         }
 
         cv::Mat &rectifiedImg() {
-            return mRectified;
+            return mRectifiedImg;
         }
 
         cv::Mat &R() {
@@ -60,7 +63,6 @@ namespace sv {
         std::vector<cv::Point3f> &epipolarLines() {
             return mEpiLines;
         }
-
     };
 }
 

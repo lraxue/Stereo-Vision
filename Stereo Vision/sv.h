@@ -10,7 +10,9 @@
 #include <string>
 #include <vector>
 #include <iostream>
+#include <algorithm>
 #include <opencv2/opencv.hpp>
+#include <opencv/highgui.h>
 #include <opencv2/flann/flann.hpp>
 #include <opencv2/features2d/features2d.hpp>
 #include <opencv2/nonfree/nonfree.hpp>
@@ -19,11 +21,6 @@ namespace sv {
     const static std::string resPath = "/Users/Neo/code/Visual/Stereo-Vision/Results/";
     const static int PALETTE_SIZE = 100;
     const static float KNN_THRESHOLD = 0.5f;
-
-    namespace {
-        double rotateX = 0.0;
-        double rotateY = 0.0;
-    }
 
     class MonoView;
     class StereoView;
