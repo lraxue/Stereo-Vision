@@ -6,6 +6,7 @@
 
 #ifndef __StereoView_H_
 #define __StereoView_H_
+
 #include "sv.h"
 #include "MonoView.h"
 
@@ -15,7 +16,7 @@ namespace sv {
         cv::Mat mEpiImg;
         cv::Mat mRectified;
         cv::Mat mR;
-        cv::Mat mT;
+        cv::Mat mQ;
         std::vector<cv::Point2f> mMatchedPoints;
         std::vector<cv::Point3f> mEpiLines;
 
@@ -23,19 +24,40 @@ namespace sv {
         StereoView(MonoView *);
 
         void pushMatchedPoint(int index);
-        void drawEpipolarLines(cv::Mat &, std::vector<cv::Scalar>&);
-        void drawMatchedPoints(std::vector<cv::Scalar>&, cv::Mat &img);
+
+        void drawEpipolarLines(cv::Mat &, int, std::vector<cv::Scalar> &);
+
+        void drawMatchedPoints(std::vector<cv::Scalar> &, cv::Mat &img);
 
         cv::Mat &epipolarImg() {
             return mEpiImg;
         }
+
         cv::Mat &rectifiedImg() {
             return mRectified;
         }
-        std::vector<cv::Point2f>& matchedPoints() {
+
+        cv::Mat &R() {
+            return mR;
+        }
+
+        cv::Mat &R(cv::Mat r) {
+            return (mR = r / norm(r));
+        }
+
+        cv::Mat &Q() {
+            return mQ;
+        }
+
+        cv::Mat &Q(cv::Mat q) {
+            return (mQ = q / norm(q));
+        }
+
+        std::vector<cv::Point2f> &matchedPoints() {
             return mMatchedPoints;
         }
-        std::vector<cv::Point3f>& epipolarLines() {
+
+        std::vector<cv::Point3f> &epipolarLines() {
             return mEpiLines;
         }
 

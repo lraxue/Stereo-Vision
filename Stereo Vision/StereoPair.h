@@ -17,7 +17,7 @@ namespace sv {
         StereoView *l;
         StereoView *r;
 
-        cv::Mat mF;
+        cv::Mat mFundamentalMat;
         cv::Mat mEssentialMat;
 
         cv::Mat mDisparity;
@@ -25,6 +25,9 @@ namespace sv {
         std::vector<int> mSparseDisparity;
 
     public:
+        const static int LEFT = 1;
+        const static int RIGHT = 2;
+
         StereoPair(MonoView *left, MonoView *right) {
             l = new StereoView(left);
             r = new StereoView(right);
@@ -39,8 +42,11 @@ namespace sv {
         }
 
         void matchFeaturePoints();
+
         void restoreMotion();
+
         void rectify();
+
         void disparity();
     };
 }

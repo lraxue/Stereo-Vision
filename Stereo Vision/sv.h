@@ -20,6 +20,11 @@ namespace sv {
     const static int PALETTE_SIZE = 100;
     const static float KNN_THRESHOLD = 0.5f;
 
+    namespace {
+        double rotateX = 0.0;
+        double rotateY = 0.0;
+    }
+
     class MonoView;
     class StereoView;
     class StereoPair;
