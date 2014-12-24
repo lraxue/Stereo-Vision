@@ -20,6 +20,7 @@
 using namespace std;
 using namespace cv;
 #define GLU
+
 int main() {
     const string dirPath = "/Users/Neo/code/Visual/Stereo-Vision/Assets/";
 #ifndef GL
@@ -35,7 +36,6 @@ int main() {
     pair.matchFeaturePoints();
     pair.restoreMotion();
     pair.rectify();
-    //pair.disparity();
 #endif
 
 #ifdef GL
@@ -46,9 +46,40 @@ int main() {
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
     glEnable(GL_DEPTH_TEST);
 
-    setOpenGlDrawCallback("OpenGL-Test", sv::onOpenGlDraw, NULL);
-    updateWindow("OpenGL-Test");
-    waitKey(-1);
+    glMatrixMode(GL_MODELVIEW);
+    gluLookAt(0, 0, 3, 0, 0, 0, 0, 1, 0);
+
+    double rotate[2] = {0, 0};
+    setOpenGlDrawCallback("OpenGL-Test", sv::onPointcloudDraw, &rotate);
+    for (;;)
+    {
+        int key = waitKey(20);
+        //cout << key << endl;
+        if ((key & 0xff) == 27)
+            break;
+
+        //  Right arrow - increase rotation by 5 degree
+        if (key == 124)
+            rotate[0] += 5;
+
+            //  Left arrow - decrease rotation by 5 degree
+        else if (key == 123) {
+            rotate[0] -= 5;
+        }
+
+        else if (key == 126)
+            rotate[0] += 5;
+
+
+        else if (key == 125)
+            rotate[1] -= 5;
+
+
+        //  Request display update
+        updateWindow("OpenGL-Test");
+
+    }
+
 #endif
 
     return 0;

@@ -6,15 +6,18 @@
 
 #ifndef __PointCloud_H_
 #define __PointCloud_H_
+
 #include "sv.h"
 
 namespace sv {
-    void onOpenGlDraw(void *data);
+    void onPointcloudDraw(void *data);
+
     class PointCloud {
     private:
         std::vector<cv::Point3f> mPointCloud;
     public:
         PointCloud();
+
         void pushPoint(cv::Point3f pt) {
             mPointCloud.push_back(pt);
         }

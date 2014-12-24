@@ -14,7 +14,7 @@
 namespace sv {
     class MonoView {
 
-    /* Members */
+        /* Members */
     private:
         /* Raw input image */
         cv::Mat mImg;
@@ -26,11 +26,13 @@ namespace sv {
         cv::Mat mDescriptor;
         std::vector<cv::KeyPoint> mFeaturePoints;
 
-    /* Methods */
+        /* Methods */
     public:
         void extractFeaturePoints();
 
-        MonoView() {}
+        MonoView() {
+        }
+
         MonoView(cv::Mat img) {
             mImg = img;
             mIntrinsicMat = cv::Mat::eye(3, 3, CV_64F);

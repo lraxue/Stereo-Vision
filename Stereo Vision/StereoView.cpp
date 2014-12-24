@@ -20,18 +20,18 @@ namespace sv {
         mMatchedPoints.push_back(featurePoints()[index].pt);
     }
 
-    void StereoView::drawEpipolarLines(cv::Mat &F, int i, std::vector<cv::Scalar>& palette) {
+    void StereoView::drawEpipolarLines(cv::Mat &F, int i, std::vector<cv::Scalar> &palette) {
         computeCorrespondEpilines(mMatchedPoints, i, F, mEpiLines);
         for (int i = 0; i < mEpiLines.size(); ++i) {
             cv::Point3f *pt = &mEpiLines[i];
             line(mEpiImg,
-                    cv::Point(0,- pt->z/pt->y),
-                    cv::Point(img().cols,-(pt->z + pt->x* img().cols)/pt->y),
+                    cv::Point(0, -pt->z / pt->y),
+                    cv::Point(img().cols, -(pt->z + pt->x * img().cols) / pt->y),
                     palette[i % PALETTE_SIZE]);
         }
     }
 
-    void StereoView::drawMatchedPoints(std::vector<cv::Scalar>& palette, cv::Mat& img) {
+    void StereoView::drawMatchedPoints(std::vector<cv::Scalar> &palette, cv::Mat &img) {
         for (int i = 0; i < mMatchedPoints.size(); ++i) {
             cv::Point2f *pt = &mMatchedPoints[i];
             circle(img,

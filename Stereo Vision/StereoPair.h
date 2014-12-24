@@ -27,6 +27,7 @@ namespace sv {
     public:
         const static int LEFT = 1;
         const static int RIGHT = 2;
+
         StereoPair(MonoView *left, MonoView *right) {
             l = new StereoView(left);
             r = new StereoView(right);
@@ -41,8 +42,11 @@ namespace sv {
         }
 
         void matchFeaturePoints();
+
         void restoreMotion();
+
         void rectify();
+
         void disparity();
     };
 }

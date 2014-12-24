@@ -4,7 +4,6 @@
 //
 
 #include "StereoPair.h"
-#include "MonoView.h"
 
 using namespace cv;
 using namespace std;
@@ -30,7 +29,7 @@ namespace sv {
         cout << "Good Matches: " << goodMatchedPoints.size() << endl;
         Mat matchImg;
         drawMatches(l->img(), l->featurePoints(),
-                    r->img(), r->featurePoints(),
+                r->img(), r->featurePoints(),
                 goodMatchedPoints, matchImg,
                 Scalar::all(-1), Scalar::all(-1), vector<char>(),
                 DrawMatchesFlags::NOT_DRAW_SINGLE_POINTS);
@@ -56,9 +55,10 @@ namespace sv {
         Mat R = svd.u * W * svd.vt, T = svd.u.col(2);
 
         l->R(Mat::eye(3, 3, CV_64F));
-        r->R(R / norm(R));
-
-        cout << "R: " << r->R() << endl;
+        if (R.at<double>(2, 2) < 0) {
+            R = -R;
+        }
+        r->R(R);
     }
 
     void StereoPair::rectify() {
@@ -69,18 +69,17 @@ namespace sv {
                 size,
                 H2, H1, 0);
 
-
         const Mat V = (Mat_<double>(3, 4) <<
-                 0, 0, l->img().cols, l->img().cols,
-                 0, l->img().rows, 0, l->img().rows,
-                 1, 1, 1, 1);
+                0, 0, l->img().cols, l->img().cols,
+                0, l->img().rows, 0, l->img().rows,
+                1, 1, 1, 1);
 
         auto transformQuad = [](const Mat &V, const Mat &H, Mat &T, Size &size) {
             Mat X = (H.row(0) * V) / (H.row(2) * V),
-                Y = (H.row(1) * V) / (H.row(2) * V);
+                    Y = (H.row(1) * V) / (H.row(2) * V);
             double minX, maxX, minY, maxY;
             minMaxLoc(X, &minX, &maxX),
-            minMaxLoc(Y, &minY, &maxY);
+                    minMaxLoc(Y, &minY, &maxY);
 
             T = H * (Mat_<double>(3, 3) << 1, 0, -minX, 0, 1, -minY, 0, 0, 1);
             size.width = ceil(maxX - minX);
@@ -101,6 +100,10 @@ namespace sv {
 
         transformQuad(V, H1, T1, sizeL);
         transformQuad(V, H2, T2, sizeR);
+
+        /* Reproject matrix */
+        l->Q(T1 * l->R());
+        r->Q(T2 * r->R());
 
         warpPerspective(l->epipolarImg(), l->rectifiedImg(), T1, sizeL);
         warpPerspective(r->epipolarImg(), r->rectifiedImg(), T2, sizeR);
@@ -127,5 +130,4 @@ namespace sv {
     void StereoPair::disparity() {
 
     }
-
 }
