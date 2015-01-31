@@ -19,14 +19,14 @@
 
 using namespace std;
 using namespace cv;
-#define GLU
+#define _GLU_
 
 int main() {
     const string dirPath = "/Users/Neo/code/Visual/Stereo-Vision/Assets/";
 
 #ifndef GL
-    Mat imgLeft = imread(dirPath + "B00.jpg", CV_64FC3),
-        imgRight = imread(dirPath + "B01.jpg", CV_64FC3);
+    Mat imgLeft = imread(dirPath + "B01.jpg", CV_64FC3),
+        imgRight = imread(dirPath + "B02.jpg", CV_64FC3);
 
     sv::MonoView l = sv::MonoView(imgLeft), r = sv::MonoView(imgRight);
 

@@ -58,6 +58,7 @@ namespace sv {
         Mat R = svd.u * W * svd.vt, T = svd.u.col(2);
 
         l->R(Mat::eye(3, 3, CV_64F));
+
         /* Orientation */
         if (R.at<double>(2, 2) < 0) {
             R = -R;
@@ -84,28 +85,34 @@ namespace sv {
         size_t length = l->matchedPoints().size();
         mPointCloud.clear();
 
-        /* Rescale depth */
+        /* Correct the offset depth */
+        float dMin = 1e10f;
+        for (int i = 0; i < length; ++i) {
+            float d = (l->matchedPoints()[i].x - r->matchedPoints()[i].x);
+            mSparseDisparity.push_back(d);
+            dMin = dMin < d ? dMin : d;
+        }
+
         float zMin = 1e10f, zMax = -1e10f;
         for (int i = 0; i < length; ++i) {
-            float disparity = abs(l->matchedPoints()[i].x - r->matchedPoints()[i].x);
-            float z = 1 / disparity;
-            Point3f pt = Point3f(l->matchedPoints()[i].x, l->matchedPoints()[i].y, z);
-            pointCloud().pushPoint(pt);
+            float d = mSparseDisparity[i];
+            float z = 1 / ((d - dMin) + 1);
+            mSparseDisparity[i] = z;
+
             zMin = zMin < z ? zMin : z;
             zMax = zMax > z ? zMax : z;
         }
 
         float scale = zMax - zMin;
         for (int i = 0; i < length; ++i) {
-            float z = pointCloud()(i).z;
-            z = (z - zMin) / scale * 1000;
-            pointCloud()(i).z = z;
+            float z = (mSparseDisparity[i] - zMin) / scale;
+            Point3f pt = Point3f(l->matchedPoints()[i].x, l->matchedPoints()[i].y, z);
+            pointCloud().pushPoint(pt);
 
-            double color = (1 - sqrt(cbrt(z / 1000))) * 255;
+            double color = (1 - (cbrt(sqrt(z)))) * 255;
+            cout << z << " " << color << endl;
             circle(l->rectifiedImg(), l->matchedPoints()[i], 2, cv::Scalar(color, color, color), 4);
             circle(r->rectifiedImg(), r->matchedPoints()[i], 2, cv::Scalar(color, color, color), 4);
-
-            cout << pointCloud()(i) << endl;
         }
 
         imwrite(resPath + "rectify-L.png", l->rectifiedImg());

@@ -15,6 +15,7 @@ namespace sv {
 
         glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
         glEnable(GL_DEPTH_TEST);
+
         //glClearColor(0, 0xff, 0xff, 0.6);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -33,12 +34,14 @@ namespace sv {
         glRotatef( pointCloud->rotateY(), 0.0, 1.0, 0.0 );
 
         // Other Transformations
-        glScalef( 1.0f / 400, 1.0f / 400, 1.0f / 20 );          // Not included
+        glScalef( 1.0f / 600, 1.0f / 600, 1.0f / 1000 );          // Not included
 
         glPointSize(5);
         glColor3f(1.0, 0, 0);
         glBegin(GL_POINTS);
         for (int i = 0; i < pointCloud->size(); ++i) {
+            float z = 1 - (*pointCloud)(i).z / 1000;
+            glColor3f(z, z, z);
             glVertex3f((*pointCloud)(i).x, (*pointCloud)(i).y, (*pointCloud)(i).z);
         }
         glEnd();

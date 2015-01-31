@@ -25,6 +25,7 @@ namespace sv {
         std::vector<cv::Scalar> palette;
         PointCloud mPointCloud;
 
+        std::vector<float> mSparseDisparity;
 
     public:
         const static int LEFT = 1;
