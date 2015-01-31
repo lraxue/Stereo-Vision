@@ -10,6 +10,7 @@
 #include "sv.h"
 #include "MonoView.h"
 #include "StereoView.h"
+#include "PointCloud.h"
 
 namespace sv {
     class StereoPair {
@@ -22,7 +23,9 @@ namespace sv {
 
         cv::Mat mDisparity;
         std::vector<cv::Scalar> palette;
-        std::vector<int> mSparseDisparity;
+        PointCloud mPointCloud;
+
+        std::vector<float> mSparseDisparity;
 
     public:
         const static int LEFT = 1;
@@ -41,13 +44,18 @@ namespace sv {
             if (nullptr != r) delete r;
         }
 
+        PointCloud &pointCloud() {
+            return mPointCloud;
+        }
         void matchFeaturePoints();
 
         void restoreMotion();
 
         void rectify();
 
-        void disparity();
+        void sparseMapping();
+
+        void denseMapping();
     };
 }
 

@@ -8,78 +8,42 @@
 #include <GLUT/glut.h>
 
 namespace sv {
-    void onPointcloudDraw(void *rotate) {
-        double* rot = (double *) rotate;
-        //  Clear screen and Z-buffer
-        glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
+    void initGl(std::string window, void *data) {
+        cv::namedWindow(window, cv::WINDOW_OPENGL);
+        cv::resizeWindow(window, 1200, 800);
+        cv::setOpenGlContext(window);
 
-        // Reset transformations
+        glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
+        glEnable(GL_DEPTH_TEST);
+
+        //glClearColor(0, 0xff, 0xff, 0.6);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+        glMatrixMode(GL_MODELVIEW);
+
+        cv::setOpenGlDrawCallback(window, sv::onDraw, data);
+    }
+
+    void onDraw(void *data) {
+        PointCloud *pointCloud = (PointCloud *)data;
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
         glLoadIdentity();
 
-        // Other Transformations
-        // glTranslatef( 0.1, 0.0, 0.0 );      // Not included
-        // glRotatef( 180, 0.0, 1.0, 0.0 );    // Not included
-
-        // Rotate when user changes rotate_x and rotate_y
-        glRotatef( rot[0], 1.0, 0.0, 0.0 );
-        glRotatef( rot[1], 0.0, 1.0, 0.0 );
+        glRotatef( pointCloud->rotateX(), 1.0, 0.0, 0.0 );
+        glRotatef( pointCloud->rotateY(), 0.0, 1.0, 0.0 );
 
         // Other Transformations
-        // glScalef( 2.0, 2.0, 0.0 );          // Not included
+        glScalef( 1.0f / 600, 1.0f / 600, 1.0f / 1000 );          // Not included
 
-        //Multi-colored side - FRONT
-        glBegin(GL_POLYGON);
-
-        glColor3f( 1.0, 0.0, 0.0 );     glVertex3f(  0.5, -0.5, -0.5 );      // P1 is red
-        glColor3f( 0.0, 1.0, 0.0 );     glVertex3f(  0.5,  0.5, -0.5 );      // P2 is green
-        glColor3f( 0.0, 0.0, 1.0 );     glVertex3f( -0.5,  0.5, -0.5 );      // P3 is blue
-        glColor3f( 1.0, 0.0, 1.0 );     glVertex3f( -0.5, -0.5, -0.5 );      // P4 is purple
-
-        glEnd();
-
-        // White side - BACK
-        glBegin(GL_POLYGON);
-        glColor3f(   1.0,  1.0, 1.0 );
-        glVertex3f(  0.5, -0.5, 0.5 );
-        glVertex3f(  0.5,  0.5, 0.5 );
-        glVertex3f( -0.5,  0.5, 0.5 );
-        glVertex3f( -0.5, -0.5, 0.5 );
-        glEnd();
-
-        // Purple side - RIGHT
-        glBegin(GL_POLYGON);
-        glColor3f(  1.0,  0.0,  1.0 );
-        glVertex3f( 0.5, -0.5, -0.5 );
-        glVertex3f( 0.5,  0.5, -0.5 );
-        glVertex3f( 0.5,  0.5,  0.5 );
-        glVertex3f( 0.5, -0.5,  0.5 );
-        glEnd();
-
-        // Green side - LEFT
-        glBegin(GL_POLYGON);
-        glColor3f(   0.0,  1.0,  0.0 );
-        glVertex3f( -0.5, -0.5,  0.5 );
-        glVertex3f( -0.5,  0.5,  0.5 );
-        glVertex3f( -0.5,  0.5, -0.5 );
-        glVertex3f( -0.5, -0.5, -0.5 );
-        glEnd();
-
-        // Blue side - TOP
-        glBegin(GL_POLYGON);
-        glColor3f(   0.0,  0.0,  1.0 );
-        glVertex3f(  0.5,  0.5,  0.5 );
-        glVertex3f(  0.5,  0.5, -0.5 );
-        glVertex3f( -0.5,  0.5, -0.5 );
-        glVertex3f( -0.5,  0.5,  0.5 );
-        glEnd();
-
-        // Red side - BOTTOM
-        glBegin(GL_POLYGON);
-        glColor3f(   1.0,  0.0,  0.0 );
-        glVertex3f(  0.5, -0.5, -0.5 );
-        glVertex3f(  0.5, -0.5,  0.5 );
-        glVertex3f( -0.5, -0.5,  0.5 );
-        glVertex3f( -0.5, -0.5, -0.5 );
+        glPointSize(5);
+        glColor3f(1.0, 0, 0);
+        glBegin(GL_POINTS);
+        for (int i = 0; i < pointCloud->size(); ++i) {
+            float z = 1 - (*pointCloud)(i).z / 1000;
+            glColor3f(z, z, z);
+            glVertex3f((*pointCloud)(i).x, (*pointCloud)(i).y, (*pointCloud)(i).z);
+        }
         glEnd();
 
         glFlush();

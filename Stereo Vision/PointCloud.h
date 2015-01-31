@@ -10,16 +10,33 @@
 #include "sv.h"
 
 namespace sv {
-    void onPointcloudDraw(void *data);
+    void initGl(const std::string window, void *data);
+    void onMouseEvent(int event, int x, int y, int z, void *data);
+    void onDraw(void *data);
 
     class PointCloud {
     private:
         std::vector<cv::Point3f> mPointCloud;
+        float rotate[2] = {0, 0};
     public:
-        PointCloud();
-
+        PointCloud() {}
+        size_t size() {
+            return mPointCloud.size();
+        }
+        cv::Point3f& operator() (int i) {
+            return mPointCloud[i];
+        }
         void pushPoint(cv::Point3f pt) {
             mPointCloud.push_back(pt);
+        }
+        void clear() {
+            mPointCloud.clear();
+        }
+        float rotateX(float r = 0.0f) {
+            return rotate[0] += r;
+        }
+        float rotateY(float r = 0.0f) {
+            return rotate[1] += r;
         }
     };
 }

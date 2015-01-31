@@ -19,13 +19,14 @@
 
 using namespace std;
 using namespace cv;
-#define GLU
+#define _GLU_
 
 int main() {
     const string dirPath = "/Users/Neo/code/Visual/Stereo-Vision/Assets/";
+
 #ifndef GL
-    Mat imgLeft = imread(dirPath + "B00.jpg", CV_64FC3),
-        imgRight = imread(dirPath + "B01.jpg", CV_64FC3);
+    Mat imgLeft = imread(dirPath + "B01.jpg", CV_64FC3),
+        imgRight = imread(dirPath + "B02.jpg", CV_64FC3);
 
     sv::MonoView l = sv::MonoView(imgLeft), r = sv::MonoView(imgRight);
 
@@ -36,48 +37,29 @@ int main() {
     pair.matchFeaturePoints();
     pair.restoreMotion();
     pair.rectify();
+    pair.sparseMapping();
 #endif
 
-#ifdef GL
-    namedWindow("OpenGL-Test", WINDOW_OPENGL);
-    resizeWindow("OpenGL-Test", 640, 480);
-    setOpenGlContext("OpenGL-Test");
+#ifdef GLU
+    sv::PointCloud *pointCloud = &pair.pointCloud();
 
-    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
-    glEnable(GL_DEPTH_TEST);
-
-    glMatrixMode(GL_MODELVIEW);
-    gluLookAt(0, 0, 3, 0, 0, 0, 0, 1, 0);
-
-    double rotate[2] = {0, 0};
-    setOpenGlDrawCallback("OpenGL-Test", sv::onPointcloudDraw, &rotate);
+    sv::initGl("PointCloud", pointCloud);
     for (;;)
     {
         int key = waitKey(20);
-        //cout << key << endl;
         if ((key & 0xff) == 27)
             break;
-
-        //  Right arrow - increase rotation by 5 degree
-        if (key == 124)
-            rotate[0] += 5;
-
-            //  Left arrow - decrease rotation by 5 degree
-        else if (key == 123) {
-            rotate[0] -= 5;
+        switch (key) {
+            case 123:
+                pointCloud->rotateX(-5); break;
+            case 124:
+                pointCloud->rotateX(5); break;
+            case 125:
+                pointCloud->rotateY(-5); break;
+            case 126:
+                pointCloud->rotateY(5); break;
         }
-
-        else if (key == 126)
-            rotate[0] += 5;
-
-
-        else if (key == 125)
-            rotate[1] -= 5;
-
-
-        //  Request display update
-        updateWindow("OpenGL-Test");
-
+        updateWindow("PointCloud");
     }
 
 #endif
