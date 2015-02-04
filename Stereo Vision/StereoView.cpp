@@ -54,6 +54,7 @@ namespace sv {
         double minX, minY, maxX, maxY;
         cv::minMaxLoc(X, &minX, &maxX);
         cv::minMaxLoc(Y, &minY, &maxY);
+        /* Attach offset for better displaying */
         T = H * (cv::Mat_<double>(3, 3) << 1, 0, -minX, 0, 1, -minY, 0, 0, 1);
 
         /* Transform the matched feature points to the new plane */
@@ -71,7 +72,4 @@ namespace sv {
         cv::warpPerspective(mEpiImg, mRectifiedImg, H, size);
         //drawMatchedPoints(mRectifiedImg, palette);
     }
-
-
-
 }

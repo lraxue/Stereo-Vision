@@ -93,6 +93,7 @@ namespace sv {
             dMin = dMin < d ? dMin : d;
         }
 
+        /* Reverse the disparity for Depth */
         float zMin = 1e10f, zMax = -1e10f;
         for (int i = 0; i < length; ++i) {
             float d = mSparseDisparity[i];
@@ -103,16 +104,34 @@ namespace sv {
             zMax = zMax > z ? zMax : z;
         }
 
+        /* Rescale the color map */
+        const int colorTabLen = 256;
+        const float colorGap = 1.0f / colorTabLen;
+        int colorMap[colorTabLen] = {0};
+
         float scale = zMax - zMin;
         for (int i = 0; i < length; ++i) {
             float z = (mSparseDisparity[i] - zMin) / scale;
+            mSparseDisparity[i] = z;
+            colorMap[(int)floor(z / colorGap)] ++;
+
             Point3f pt = Point3f(l->matchedPoints()[i].x, l->matchedPoints()[i].y, z);
             pointCloud().pushPoint(pt);
+        }
 
-            double color = (1 - (cbrt(sqrt(z)))) * 255;
-            cout << z << " " << color << endl;
-            circle(l->rectifiedImg(), l->matchedPoints()[i], 2, cv::Scalar(color, color, color), 4);
-            circle(r->rectifiedImg(), r->matchedPoints()[i], 2, cv::Scalar(color, color, color), 4);
+        /* Histogram equalization map */
+        float sum = 0;
+        for (int j = 0; j < colorTabLen; ++j) {
+            float color = colorMap[j];
+            colorMap[j] = (1 - sum) * colorTabLen;
+            sum += color / length;
+        }
+
+        /* Draw the final map */
+        for (int i = 0; i < length; ++i) {
+            int color = colorMap[(int)floor(mSparseDisparity[i] / colorGap)];
+            circle(l->rectifiedImg(), l->matchedPoints()[i], 2, cv::Scalar(color, color, color), 3);
+            circle(r->rectifiedImg(), r->matchedPoints()[i], 2, cv::Scalar(color, color, color), 3);
         }
 
         imwrite(resPath + "rectify-L.png", l->rectifiedImg());
