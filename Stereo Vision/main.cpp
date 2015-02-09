@@ -6,11 +6,6 @@
 //  Copyright (c) 2014年 PKU. All rights reserved.
 //
 
-#include <iostream>
-#include <opencv2/opencv.hpp>
-#include <OpenGL/gl.h>
-#include <GLUT/glut.h>
-
 #include "sv.h"
 #include "MonoView.h"
 #include "StereoView.h"
@@ -19,7 +14,8 @@
 
 using namespace std;
 using namespace cv;
-#define _GLU_
+
+#define GLU
 
 int main() {
     const string dirPath = "/Users/Neo/code/Visual/Stereo-Vision/Assets/";
@@ -42,27 +38,8 @@ int main() {
 
 #ifdef GLU
     sv::PointCloud *pointCloud = &pair.pointCloud();
-
-    sv::initGl("PointCloud", pointCloud);
-    for (;;)
-    {
-        int key = waitKey(20);
-        if ((key & 0xff) == 27)
-            break;
-        switch (key) {
-            case 123:
-                pointCloud->rotateX(-5); break;
-            case 124:
-                pointCloud->rotateX(5); break;
-            case 125:
-                pointCloud->rotateY(-5); break;
-            case 126:
-                pointCloud->rotateY(5); break;
-        }
-        updateWindow("PointCloud");
-    }
-
+    sv::initGl("Hello", pointCloud);
+    return 0;
 #endif
 
-    return 0;
 }

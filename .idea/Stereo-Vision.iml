@@ -2,6 +2,18 @@
 <module type="CIDR_MODULE" version="4">
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$" />
+    <content url="file:///usr/local/Cellar/glew/1.11.0/lib/libGLEW.1.11.0.dylib">
+      <sourceFolder url="file:///usr/local/Cellar/glew/1.11.0/lib/libGLEW.1.11.0.dylib" isTestSource="false" />
+    </content>
+    <content url="file:///usr/local/Cellar/glew/1.11.0/lib/libGLEW.a">
+      <sourceFolder url="file:///usr/local/Cellar/glew/1.11.0/lib/libGLEW.a" isTestSource="false" />
+    </content>
+    <content url="file:///usr/local/Cellar/glew/1.11.0/lib/libGLEWmx.1.11.0.dylib">
+      <sourceFolder url="file:///usr/local/Cellar/glew/1.11.0/lib/libGLEWmx.1.11.0.dylib" isTestSource="false" />
+    </content>
+    <content url="file:///usr/local/Cellar/glew/1.11.0/lib/libGLEWmx.a">
+      <sourceFolder url="file:///usr/local/Cellar/glew/1.11.0/lib/libGLEWmx.a" isTestSource="false" />
+    </content>
     <content url="file:///usr/local/Cellar/opencv/2.4.9/lib/libopencv_calib3d.2.4.9.dylib">
       <sourceFolder url="file:///usr/local/Cellar/opencv/2.4.9/lib/libopencv_calib3d.2.4.9.dylib" isTestSource="false" />
     </content>
@@ -25,6 +37,9 @@
     </content>
     <content url="file:///usr/local/Cellar/opencv/2.4.9/lib/libopencv_objdetect.2.4.9.dylib">
       <sourceFolder url="file:///usr/local/Cellar/opencv/2.4.9/lib/libopencv_objdetect.2.4.9.dylib" isTestSource="false" />
+    </content>
+    <content url="file:///usr/local/lib/libglfw3.a">
+      <sourceFolder url="file:///usr/local/lib/libglfw3.a" isTestSource="false" />
     </content>
     <content url="file:///usr/local/lib/libopencv_calib3d.2.4.10.dylib">
       <sourceFolder url="file:///usr/local/lib/libopencv_calib3d.2.4.10.dylib" isTestSource="false" />

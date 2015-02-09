@@ -13,7 +13,6 @@
 		1317824B866A0D0DC06984E5 /* PointCloud.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 13178DFBA602B97C882BC776 /* PointCloud.cpp */; };
 		1317828EC813B636CC4A05C6 /* libopencv_imgproc.2.4.10.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 131783C37A4A14149F2FC9F6 /* libopencv_imgproc.2.4.10.dylib */; };
 		131783482EBAE15D3F2655A6 /* libopencv_ocl.2.4.10.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1317889B587AD04177801256 /* libopencv_ocl.2.4.10.dylib */; };
-		1317837512A422933F08711C /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 13178CCBAA30001C751223B3 /* OpenGL.framework */; };
 		1317842E47CF875C7596B35F /* libopencv_core.2.4.10.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 13178227EE8A5E3FC27FF35E /* libopencv_core.2.4.10.dylib */; };
 		13178499AA020BBACBFD8903 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 13178CCBAA30001C751223B3 /* OpenGL.framework */; };
 		131784ABCD1C43918319B7DF /* libopencv_ml.2.4.10.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 13178B97773EF35D25C593D3 /* libopencv_ml.2.4.10.dylib */; };
@@ -22,13 +21,21 @@
 		13178877846007063140D81C /* libopencv_highgui.2.4.10.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 13178DE3AC4F3B46CCEEE552 /* libopencv_highgui.2.4.10.dylib */; };
 		13178893DEF0452587F8DEC3 /* libopencv_calib3d.2.4.10.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 13178DDF9AB9B32C80D88A39 /* libopencv_calib3d.2.4.10.dylib */; };
 		131788F2FCAA8EB4D0F0F535 /* libopencv_contrib.2.4.10.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1317840ED41B1A943F31F6D5 /* libopencv_contrib.2.4.10.dylib */; };
-		13178A323F1D77AB54E5900D /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 131785FA534E7FA73282C0AE /* GLUT.framework */; };
 		13178BBB8CDE239A5EBC5483 /* libopencv_stitching.2.4.10.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 131783D3FC6C60C7354F6422 /* libopencv_stitching.2.4.10.dylib */; };
 		13178C60A609B1E915F670ED /* libopencv_flann.2.4.10.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 131784C6537CBE7E4A00DB4E /* libopencv_flann.2.4.10.dylib */; };
 		13178D8C3639E8EF623050B1 /* libopencv_objdetect.2.4.10.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 13178DCD03BB7159206986F6 /* libopencv_objdetect.2.4.10.dylib */; };
 		13178EDE688B824EF01A8063 /* StereoView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1317800514EAA199A7935FAE /* StereoView.cpp */; };
+		B510BB3E1A81F5F70062920A /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 131785FA534E7FA73282C0AE /* GLUT.framework */; };
+		B510BB401A81F61A0062920A /* libglfw3.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B510BB3F1A81F61A0062920A /* libglfw3.a */; };
 		B590979A1A285CAB00F4DABB /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B59097991A285CAB00F4DABB /* main.cpp */; };
+		B5E80F181A81F7BE00177B61 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5E80F171A81F7BE00177B61 /* Cocoa.framework */; };
+		B5E80F1A1A81F7DA00177B61 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5E80F191A81F7DA00177B61 /* IOKit.framework */; };
+		B5E80F1C1A81F7EA00177B61 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5E80F1B1A81F7EA00177B61 /* CoreVideo.framework */; };
 		B5F1457F1A2F061700C8AFE5 /* MonoView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5F1457D1A2F061700C8AFE5 /* MonoView.cpp */; };
+		B5FD3D7A1A823F6900F17E53 /* libGLEW.1.11.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B5FD3D761A823F6900F17E53 /* libGLEW.1.11.0.dylib */; };
+		B5FD3D7B1A823F6900F17E53 /* libGLEW.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B5FD3D771A823F6900F17E53 /* libGLEW.a */; };
+		B5FD3D7C1A823F6900F17E53 /* libGLEWmx.1.11.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B5FD3D781A823F6900F17E53 /* libGLEWmx.1.11.0.dylib */; };
+		B5FD3D7D1A823F6900F17E53 /* libGLEWmx.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B5FD3D791A823F6900F17E53 /* libGLEWmx.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -70,10 +77,18 @@
 		13178E209C6AFA68A3B84F16 /* calib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = calib; sourceTree = "<group>"; };
 		13178EEAFBBAF41B54A9DA39 /* im1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = im1.png; sourceTree = "<group>"; };
 		13178FC35CEBB91562CC7838 /* StereoPair.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StereoPair.h; sourceTree = "<group>"; };
+		B510BB3F1A81F61A0062920A /* libglfw3.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libglfw3.a; path = ../../../../../usr/local/lib/libglfw3.a; sourceTree = "<group>"; };
 		B59097961A285CAB00F4DABB /* Stereo Vision */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "Stereo Vision"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B59097991A285CAB00F4DABB /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		B5E80F171A81F7BE00177B61 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		B5E80F191A81F7DA00177B61 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
+		B5E80F1B1A81F7EA00177B61 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
 		B5F1457D1A2F061700C8AFE5 /* MonoView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MonoView.cpp; sourceTree = "<group>"; };
 		B5F1457E1A2F061700C8AFE5 /* MonoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MonoView.h; sourceTree = "<group>"; };
+		B5FD3D761A823F6900F17E53 /* libGLEW.1.11.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libGLEW.1.11.0.dylib; path = ../../../../../usr/local/Cellar/glew/1.11.0/lib/libGLEW.1.11.0.dylib; sourceTree = "<group>"; };
+		B5FD3D771A823F6900F17E53 /* libGLEW.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libGLEW.a; path = ../../../../../usr/local/Cellar/glew/1.11.0/lib/libGLEW.a; sourceTree = "<group>"; };
+		B5FD3D781A823F6900F17E53 /* libGLEWmx.1.11.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libGLEWmx.1.11.0.dylib; path = ../../../../../usr/local/Cellar/glew/1.11.0/lib/libGLEWmx.1.11.0.dylib; sourceTree = "<group>"; };
+		B5FD3D791A823F6900F17E53 /* libGLEWmx.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libGLEWmx.a; path = ../../../../../usr/local/Cellar/glew/1.11.0/lib/libGLEWmx.a; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,9 +96,16 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B5FD3D7B1A823F6900F17E53 /* libGLEW.a in Frameworks */,
+				B5FD3D7D1A823F6900F17E53 /* libGLEWmx.a in Frameworks */,
+				B510BB401A81F61A0062920A /* libglfw3.a in Frameworks */,
+				B5E80F181A81F7BE00177B61 /* Cocoa.framework in Frameworks */,
+				B5E80F1A1A81F7DA00177B61 /* IOKit.framework in Frameworks */,
+				B5E80F1C1A81F7EA00177B61 /* CoreVideo.framework in Frameworks */,
+				B510BB3E1A81F5F70062920A /* GLUT.framework in Frameworks */,
 				13178499AA020BBACBFD8903 /* OpenGL.framework in Frameworks */,
-				1317837512A422933F08711C /* OpenGL.framework in Frameworks */,
-				13178A323F1D77AB54E5900D /* GLUT.framework in Frameworks */,
+				B5FD3D7A1A823F6900F17E53 /* libGLEW.1.11.0.dylib in Frameworks */,
+				B5FD3D7C1A823F6900F17E53 /* libGLEWmx.1.11.0.dylib in Frameworks */,
 				13178893DEF0452587F8DEC3 /* libopencv_calib3d.2.4.10.dylib in Frameworks */,
 				131788F2FCAA8EB4D0F0F535 /* libopencv_contrib.2.4.10.dylib in Frameworks */,
 				1317842E47CF875C7596B35F /* libopencv_core.2.4.10.dylib in Frameworks */,
@@ -117,6 +139,14 @@
 		131784AC785836F9E3CFFC82 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B5FD3D761A823F6900F17E53 /* libGLEW.1.11.0.dylib */,
+				B5FD3D771A823F6900F17E53 /* libGLEW.a */,
+				B5FD3D781A823F6900F17E53 /* libGLEWmx.1.11.0.dylib */,
+				B5FD3D791A823F6900F17E53 /* libGLEWmx.a */,
+				B5E80F1B1A81F7EA00177B61 /* CoreVideo.framework */,
+				B5E80F191A81F7DA00177B61 /* IOKit.framework */,
+				B5E80F171A81F7BE00177B61 /* Cocoa.framework */,
+				B510BB3F1A81F61A0062920A /* libglfw3.a */,
 				13178CCBAA30001C751223B3 /* OpenGL.framework */,
 				131786893ED2008DC6CE9F66 /* Dependency */,
 				131785FA534E7FA73282C0AE /* GLUT.framework */,
@@ -333,18 +363,19 @@
 		B590979E1A285CAB00F4DABB /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					/usr/local/lib,
-				);
+				FRAMEWORK_SEARCH_PATHS = /usr/local/lib;
 				HEADER_SEARCH_PATHS = (
 					"\"$(inherited)\"",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					/usr/local/include,
 					/usr/local/include/opencv2,
 					/usr/local/include/opencv,
+					/usr/local/include/GLFW,
+					/usr/local/Cellar/glew/1.11.0/include,
 				);
 				LIBRARY_SEARCH_PATHS = (
 					/usr/local/lib,
+					/usr/local/Cellar/glew/1.11.0/lib,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -353,18 +384,19 @@
 		B590979F1A285CAB00F4DABB /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					/usr/local/lib,
-				);
+				FRAMEWORK_SEARCH_PATHS = /usr/local/lib;
 				HEADER_SEARCH_PATHS = (
 					"\"$(inherited)\"",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					/usr/local/include,
 					/usr/local/include/opencv2,
 					/usr/local/include/opencv,
+					/usr/local/include/GLFW,
+					/usr/local/Cellar/glew/1.11.0/include,
 				);
 				LIBRARY_SEARCH_PATHS = (
 					/usr/local/lib,
+					/usr/local/Cellar/glew/1.11.0/lib,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};

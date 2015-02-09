@@ -10,12 +10,18 @@
 #include <string>
 #include <vector>
 #include <iostream>
+#include <iosfwd>
 #include <algorithm>
+#include <cmath>
 #include <opencv2/opencv.hpp>
 #include <opencv/highgui.h>
 #include <opencv2/flann/flann.hpp>
 #include <opencv2/features2d/features2d.hpp>
 #include <opencv2/nonfree/nonfree.hpp>
+
+#include <OpenGL/gl.h>
+#include <OpenGL/glu.h>
+#include <GLFW/glfw3.h>
 
 namespace sv {
     const static std::string resPath = "/Users/Neo/code/Visual/Stereo-Vision/Results/";
