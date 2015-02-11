@@ -12,19 +12,18 @@
 namespace sv {
     void onMouseClick(GLFWwindow *window, int button, int action, int mods);
     void onMouseDrag(GLFWwindow *window);
+    void onMouseScroll(GLFWwindow *window, double xOffset, double yOffset);
 
     void initGl(const std::string windowName, void *data);
 
     void render(GLFWwindow *window, void *data);
-
+    void drawPoints(PointCloud *data);
 
     class PointCloud {
     private:
         std::vector<cv::Point3f> mPointCloud;
-        float rotate[2] = {0, 0};
     public:
-        PointCloud() {
-        }
+        PointCloud() { }
 
         size_t size() {
             return mPointCloud.size();
@@ -41,6 +40,8 @@ namespace sv {
         void clear() {
             mPointCloud.clear();
         }
+
+        void reScale();
     };
 }
 

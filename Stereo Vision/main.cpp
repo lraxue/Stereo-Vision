@@ -38,7 +38,7 @@ int main() {
 
 #ifdef GLU
     sv::PointCloud *pointCloud = &pair.pointCloud();
-    sv::initGl("Hello", pointCloud);
+    sv::initGl("Point Cloud", pointCloud);
     return 0;
 #endif
 
