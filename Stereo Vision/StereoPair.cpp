@@ -40,6 +40,8 @@ namespace sv {
         Mat status;
         mFundamentalMat =
                 findFundamentalMat(l->matchedPoints(), r->matchedPoints());
+        
+        cout << mFundamentalMat << endl;
 
         computeCorrespondEpilines(l->matchedPoints(), 1, mFundamentalMat, r->epipolarLines());
         computeCorrespondEpilines(r->matchedPoints(), 2, mFundamentalMat, l->epipolarLines());
@@ -52,7 +54,7 @@ namespace sv {
         r->drawMatchedPoints(r->epipolarImg(), palette);
         imwrite(resPath + "epi-R.png", r->epipolarImg());
 
-        mEssentialMat = r->intrinsicMat().t() * mFundamentalMat * l->intrinsicMat();
+        mEssentialMat = mFundamentalMat;
         SVD svd(mEssentialMat);
         Mat W = (Mat_<double>(3, 3) << 0, 1, 0, -1, 0, 0, 0, 0, 0);
         Mat R = svd.u * W * svd.vt, T = svd.u.col(2);
@@ -89,6 +91,7 @@ namespace sv {
         float dMin = 1e10f;
         for (int i = 0; i < length; ++i) {
             float d = (l->matchedPoints()[i].x - r->matchedPoints()[i].x);
+            cout << d << endl;
             mSparseDisparity.push_back(d);
             dMin = dMin < d ? dMin : d;
         }
@@ -97,7 +100,7 @@ namespace sv {
         float zMin = 1e10f, zMax = -1e10f;
         for (int i = 0; i < length; ++i) {
             float d = mSparseDisparity[i];
-            float z = 1 / ((d - dMin) + 1);
+            float z = 1 / ((d - dMin) + 80);
             mSparseDisparity[i] = z;
 
             zMin = zMin < z ? zMin : z;

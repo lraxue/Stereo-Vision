@@ -11,7 +11,7 @@ namespace sv {
     const static float RATIO = float(WIDTH) / float(HEIGHT);
 
     static double prevMouseX = 0, prevMouseY = 0;
-    static float elevation = 0, azimuth = 0, R = 1.0f;
+    static float elevation = 0, azimuth = 0, R = 2.0f;
     static bool isDragging = false;
 
     static void drawCube() {
@@ -87,7 +87,8 @@ namespace sv {
 
         glColor3f(0.0, 0.2, 1.0);
         glBegin(GL_LINES);
-        // Y-Axis
+
+        // Y-Axis with a different color
         glVertex3f(0.0, 0.0, 0.0);
         glVertex3f(0.0, 2.0, 0.0);
         glEnd();
@@ -216,8 +217,8 @@ namespace sv {
              y                   -----------------> x in the 3D coordinate
              */
             mPointCloud[i].y = (avg.y - mPointCloud[i].y) / scale;
-            mPointCloud[i].z = (avg.z - mPointCloud[i].z) * 5;
-            std::cout << mPointCloud[i] << std::endl;
+            mPointCloud[i].z = (avg.z - mPointCloud[i].z) * 4;
+            //std::cout << mPointCloud[i] << std::endl;
         }
     }
 }
