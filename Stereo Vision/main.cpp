@@ -33,7 +33,8 @@ int main() {
     pair.matchFeaturePoints();
     pair.restoreMotion();
     pair.rectify();
-    pair.sparseMapping();
+    //pair.sparseMapping();
+    pair.denseMapping();
 #endif
 
 #ifdef GLU

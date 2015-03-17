@@ -140,4 +140,65 @@ namespace sv {
         imwrite(resPath + "rectify-L.png", l->rectifiedImg());
         imwrite(resPath + "rectify-R.png", r->rectifiedImg());
     }
+    
+    void StereoPair::denseMapping() {
+        FastFeatureDetector fast(10);
+        SiftDescriptorExtractor extractor;
+        cv::Mat lDescriptor, rDescriptor;
+        
+        vector<KeyPoint> lKeyPoints, rKeyPoints;
+        
+        fast.detect(l->img(), lKeyPoints);
+        fast.detect(r->img(), rKeyPoints);
+
+        extractor.compute(l->img(), lKeyPoints, lDescriptor);
+        extractor.compute(r->img(), rKeyPoints, rDescriptor);
+        
+//        drawKeypoints(l->img(), lKeyPoints, l->img(), Scalar(0, 0, 0));
+//        drawKeypoints(r->img(), rKeyPoints, r->img(), Scalar(0, 0, 0));
+
+        FlannBasedMatcher matcher;
+        vector<vector<DMatch> > knnMatches;
+        vector<DMatch> goodMatchedPoints;
+        
+        matcher.knnMatch(lDescriptor, rDescriptor, knnMatches, 2);
+        cout << "Matches: " << knnMatches.size() << endl;
+        
+        for (int i = 0; i < knnMatches.size(); ++i) {
+            DMatch bestMatch = knnMatches[i][0];
+
+            Point2f lPoint = lKeyPoints[bestMatch.queryIdx].pt;
+            Point2f rPoint = rKeyPoints[bestMatch.trainIdx].pt;
+            Mat epiLine = mFundamentalMat * (Mat_<double>(3, 1) << lPoint.x, lPoint.y, 1);
+            if (norm(epiLine.t() * (Mat_<double>(3, 1) << rPoint.x, rPoint.y, 1)) < 5) {
+                goodMatchedPoints.push_back(bestMatch);
+                l->matchedPoints().push_back(lPoint);
+                r->matchedPoints().push_back(rPoint);
+            }
+        }
+        cout << "Good Matches: " << goodMatchedPoints.size() << endl;
+        Mat matchImg;
+        drawMatches(l->img(), lKeyPoints,
+                    r->img(), rKeyPoints,
+                    goodMatchedPoints, matchImg,
+                    Scalar::all(-1), Scalar::all(-1), vector<char>(),
+                    DrawMatchesFlags::NOT_DRAW_SINGLE_POINTS);
+        
+        imwrite(resPath + "match-dense.png", matchImg);
+        
+        sparseMapping();
+        /*
+        int count = 0;
+        for (int i = 0; i < lKeyPoints.size(); ++i) {
+            Mat epiLine = mFundamentalMat * (Mat_<double>(3, 1) << lKeyPoints[i].pt.x, lKeyPoints[i].pt.y, 1);
+
+            for (int j = 0; j < rKeyPoints.size(); ++j) {
+                if (norm(epiLine.t() * (Mat_<double>(3, 1) << rKeyPoints[j].pt.x, rKeyPoints[j].pt.y, 1)) < 5) {
+                    count ++;
+                }
+            }
+        }
+        cout << count << endl;*/
+
+    }
 }
